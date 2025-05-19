@@ -4,8 +4,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-   <f:view>
-      <h:outputLabel value="Hello, world"/>
-   </f:view>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; gap: 20px;">
+
+        <h:graphicImage alt="error image" url="images/httpError.png"
+                        style="max-width: 80%; max-height: 80%;"/>
+        
+        <h:link outcome="index" style="font-size: 1.2em; ">
+            Zur Homepages
+        </h:link>
+    </div>
+</f:view>
 </html>

@@ -12,7 +12,7 @@
             <p:outputLabel value="Username: " />
             <p:inputText value="#{userProfileViewModel.name}" />
             <br/>
-            <p:commandButton value="Save" action="#{userProfileViewModel.name}" />
+            <p:commandButton value="Save" action="#{userProfileViewModel.save()}" />
         </h:form>
     </p:panel>
     <h:link outcome="/index" value="Back to Home" />
