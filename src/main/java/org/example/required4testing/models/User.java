@@ -9,8 +9,6 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(unique = true, nullable = false)
     private UserLevelType level;
 
     public User() {
@@ -36,4 +34,6 @@ public class User extends BaseEntity{
     public void setLevel(UserLevelType level) {
         this.level = level;
     }
+
+
 }

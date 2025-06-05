@@ -10,5 +10,18 @@
     <p:panel header="Home Page">
         <h:link outcome="user/userprofile" value="Go to User Profile" />
     </p:panel>
+    <h:form>
+        <p:panel header="Login" style="width:300px">
+            <p:messages id="messages" showDetail="true" closable="true" />
+
+            <p:outputLabel for="username" value="Benutzername" />
+            <p:inputText id="username" value="#{loginViewModel.username}" required="true" />
+
+            <p:outputLabel for="password" value="Passwort" style="margin-top:10px;" />
+            <p:password id="password" value="#{LoginViewModel.password}" required="true" feedback="false" />
+
+            <p:commandButton value="Anmelden" action="#{LoginViewModel.login}" update="messages" style="margin-top:15px; width:100%;" />
+        </p:panel>
+    </h:form>
 </h:body>
 </html>

@@ -1,26 +1,19 @@
-package org.example.required4testing.models.tests;
+package org.example.required4testing.dtos;
 
-import jakarta.persistence.*;
-import org.example.required4testing.models.BaseEntity;
+import org.example.required4testing.models.tests.TestCase;
 
 import java.util.Collection;
-import java.util.List;
 
-@Entity
-@Table
-public class TestRequirement extends BaseEntity {
+public class TestRequirementDto {
     private String Title;
-    @Column(length = 1024)
     private String Description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn()
     private Collection<TestCase> TestCase;
 
-    public TestRequirement() {
+    public TestRequirementDto() {
     }
 
-    public TestRequirement(String title, String description, Collection<TestCase> testCase) {
+    public TestRequirementDto(String title, String description, Collection<TestCase> testCase) {
         Title = title;
         Description = description;
         TestCase = testCase;
@@ -46,7 +39,7 @@ public class TestRequirement extends BaseEntity {
         return TestCase;
     }
 
-    public void setTestCase(List<TestCase> testCase) {
+    public void setTestCase(Collection<TestCase> testCase) {
         TestCase = testCase;
     }
 }

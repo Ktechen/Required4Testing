@@ -1,38 +1,18 @@
 package org.example.required4testing.models;
 
-import jakarta.persistence.*;
+public enum UserLevelType {
+    Tester(0),
+    Testfallersteller(10),
+    Testmanager(20),
+    RequirementsEngineer(30);
 
-@Entity
-@Table
-public class UserLevelType {
+    private final int value;
 
-    @Id
-    private int Id;
-
-    @Column(nullable = false)
-    private String Title;
-
-    public UserLevelType() {
+    UserLevelType(int value) {
+        this.value = value;
     }
 
-    public UserLevelType(int id, String title) {
-        Id = id;
-        Title = title;
-    }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int id) {
-        Id = id;
-    }
-
-    public String getTitle() {
-        return Title;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
+    public int getValue() {
+        return value;
     }
 }
