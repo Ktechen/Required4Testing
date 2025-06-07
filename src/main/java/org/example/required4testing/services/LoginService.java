@@ -1,13 +1,1 @@
-package org.example.required4testing.services;
-
-import org.springframework.stereotype.Service;
-
-@Service
-public class LoginService {
-
-    public boolean validate(String username, String password) {
-        // Dummy Logik, z. B. DB-Check
-        return "admin".equals(username) && "1234".equals(password);
-    }
-
-}
+package org.example.required4testing.services;import jakarta.inject.Inject;import org.example.required4testing.repositories.tests.UserRepository;import org.springframework.stereotype.Service;@Servicepublic class LoginService {    @Inject    private UserRepository userRepository;    public boolean validate(String username, String password) {        var user = userRepository.findByName(username);        return user.map(value -> value.getPassword().equals(password)).orElse(false);    }}

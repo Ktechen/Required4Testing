@@ -9,15 +9,19 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String name;
 
-    private UserLevelType level;
+    @Column(nullable = false)
+    private String password;
 
     public User() {
     }
 
-    public User(String name, UserLevelType level) {
+    public User(String name, String password, int level) {
         this.name = name;
+        this.password = password;
         this.level = level;
     }
+
+    private int level;
 
     public String getName() {
         return name;
@@ -27,13 +31,19 @@ public class User extends BaseEntity{
         this.name = name;
     }
 
-    public UserLevelType getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(UserLevelType level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

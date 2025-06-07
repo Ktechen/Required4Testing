@@ -5,14 +5,14 @@ import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
 import org.example.required4testing.models.UserLevelType;
 import org.example.required4testing.models.tests.TestRequirement;
-import org.example.required4testing.repositories.ITestRequirementRepository;
+import org.example.required4testing.repositories.tests.TestRequirementRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements IUserService {
 
     @Inject
-    private ITestRequirementRepository testRequirementRepository;
+    private TestRequirementRepository testRequirementRepository;
 
     @Override
     public boolean CreateTestsRequirements(UserDto userDto, TestRequirementDto requirement) {

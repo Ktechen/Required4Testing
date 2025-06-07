@@ -3,15 +3,17 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <link rel="stylesheet" href="styles/style.css"/>
+    <title>Error - page</title>
+</h:head>
 <f:view>
     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; gap: 20px;">
 
         <h:graphicImage alt="error image" url="images/httpError.png"
                         style="max-width: 80%; max-height: 80%;"/>
-        
+
         <h:link outcome="index" style="font-size: 1.2em; ">
             Zur Homepages
         </h:link>

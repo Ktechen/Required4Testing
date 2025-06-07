@@ -2,6 +2,7 @@ package org.example.required4testing.models.tests;
 
 import jakarta.persistence.*;
 import org.example.required4testing.models.BaseEntity;
+import org.example.required4testing.models.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +18,10 @@ public class TestRequirement extends BaseEntity {
     @JoinColumn()
     private Collection<TestCase> TestCase;
 
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private User CreatedByUser;
+
     public TestRequirement() {
     }
 
@@ -24,6 +29,18 @@ public class TestRequirement extends BaseEntity {
         Title = title;
         Description = description;
         TestCase = testCase;
+    }
+
+    public void setTestCase(Collection<TestCase> testCase) {
+        TestCase = testCase;
+    }
+
+    public User getCreatedByUser() {
+        return CreatedByUser;
+    }
+
+    public void setCreatedByUser(User createdByUser) {
+        CreatedByUser = createdByUser;
     }
 
     public String getTitle() {
