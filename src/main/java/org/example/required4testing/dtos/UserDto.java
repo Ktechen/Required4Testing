@@ -1,10 +1,16 @@
 package org.example.required4testing.dtos;
 
-import org.example.required4testing.models.UserLevelType;
-
 public class UserDto {
     private String name;
-    private UserLevelType userLevelType;
+    private int Level;
+
+    public UserDto() {
+    }
+
+    public UserDto(String name, int Level) {
+        this.name = name;
+        this.Level = Level;
+    }
 
     public String getName() {
         return name;
@@ -14,11 +20,11 @@ public class UserDto {
         this.name = name;
     }
 
-    public UserLevelType getUserLevelType() {
-        return userLevelType;
+    public int getLevel() {
+        return Level;
     }
 
-    public void setUserLevelType(UserLevelType userLevelType) {
-        this.userLevelType = userLevelType;
+    public void setLevel(int level) {
+        this.Level = level;
     }
 }

@@ -15,10 +15,9 @@ public class DatabaseUserSeeder {
     @PostConstruct
     public void seedDatabase() {
         if (userRepository.count() != 0) return;
-
         userRepository.save(new User("Peter", "1234", UserLevelType.RequirementsEngineer.getValue()));
         userRepository.save(new User("Hans", "1234", UserLevelType.Testmanager.getValue()));
         userRepository.save(new User("Jürgen", "1234", UserLevelType.Testfallersteller.getValue()));
-        userRepository.save(new User("Jürgen", "1234", UserLevelType.Tester.getValue()));
+        userRepository.save(new User("Lukas", "1234", UserLevelType.Tester.getValue()));
     }
 }

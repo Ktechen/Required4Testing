@@ -12,6 +12,8 @@ public class User extends BaseEntity{
     @Column(nullable = false)
     private String password;
 
+    private int level;
+
     public User() {
     }
 
@@ -20,8 +22,6 @@ public class User extends BaseEntity{
         this.password = password;
         this.level = level;
     }
-
-    private int level;
 
     public String getName() {
         return name;

@@ -9,14 +9,13 @@ import org.example.required4testing.repositories.tests.TestRequirementRepository
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements IUserService {
+public class TestRequirementService {
 
     @Inject
     private TestRequirementRepository testRequirementRepository;
 
-    @Override
     public boolean CreateTestsRequirements(UserDto userDto, TestRequirementDto requirement) {
-        if(userDto.getUserLevelType().getValue() == UserLevelType.RequirementsEngineer.getValue()){
+        if (!UserLevelType.RequirementsEngineer.hasMinimumLevelRequirementsEngineer(userDto)) {
             return false;
         }
 
@@ -28,8 +27,4 @@ public class UserService implements IUserService {
         return true;
     }
 
-    @Override
-    public void SaveUser(UserDto userDto) {
-
-    }
 }

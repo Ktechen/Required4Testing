@@ -8,6 +8,7 @@ import jakarta.inject.Named;
 import org.example.required4testing.services.LoginService;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 @Named
 @RequestScoped
@@ -19,16 +20,22 @@ public class LoginViewModel {
     private LoginService loginService;
 
     public void login() throws IOException {
-        var ctx = FacesContext.getCurrentInstance().getExternalContext();
-        if (loginService.validate(username, password)) {
-            ctx.redirect(ctx.getRequestContextPath() + "/tests/overview.xhtml");
-            ;
+        var ctx = FacesContext.getCurrentInstance();
+        ctx.getExternalContext().getSessionMap().clear();
+
+        var userValidation = loginService.validate(username, password);
+        if (userValidation.success()) {
+            var map =  new HashMap<String, Object>();
+            map.put("username", userValidation.object().getName());
+            map.put("level", String.valueOf(userValidation.object().getLevel()));
+            ctx.getExternalContext().getSessionMap().putAll(map);
+            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/tests/requirement.xhtml");
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+            ctx.addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR,
                     "Ungültiger Benutzername oder Passwort",
                     null));
-            FacesContext.getCurrentInstance().validationFailed();
+            ctx.validationFailed();
         }
     }
 

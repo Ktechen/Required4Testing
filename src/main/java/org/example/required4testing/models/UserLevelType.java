@@ -1,5 +1,7 @@
 package org.example.required4testing.models;
 
+import org.example.required4testing.dtos.UserDto;
+
 public enum UserLevelType {
     Tester(0),
     Testfallersteller(10),
@@ -14,5 +16,23 @@ public enum UserLevelType {
 
     public int getValue() {
         return value;
+    }
+
+    public boolean hasMinimumLevelRequirementsEngineer(UserDto userDto) {
+        return userDto.getLevel() >= UserLevelType.RequirementsEngineer.getValue();
+    }
+
+    public boolean hasMinimumLevelTestmanager(UserDto userDto) {
+        return userDto.getLevel() >= UserLevelType.Testmanager.getValue();
+    }
+
+
+    public boolean hasMinimumLevelTestfallersteller(UserDto userDto) {
+        return userDto.getLevel() >= UserLevelType.Testfallersteller.getValue();
+    }
+
+
+    public boolean hasMinimumLevelTester(UserDto userDto) {
+        return userDto.getLevel() >= UserLevelType.Tester.getValue();
     }
 }
