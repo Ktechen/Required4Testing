@@ -5,7 +5,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.example.required4testing.services.LoginService;
+import org.example.required4testing.services.UserService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,13 +17,13 @@ public class LoginViewModel {
     private String password;
 
     @Inject
-    private LoginService loginService;
+    private UserService userService;
 
     public void login() throws IOException {
         var ctx = FacesContext.getCurrentInstance();
         ctx.getExternalContext().getSessionMap().clear();
 
-        var userValidation = loginService.validate(username, password);
+        var userValidation = userService.validate(username, password);
         if (userValidation.success()) {
             var map =  new HashMap<String, Object>();
             map.put("username", userValidation.object().getName());

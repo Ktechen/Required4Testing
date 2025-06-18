@@ -8,6 +8,7 @@ import jakarta.inject.Named;
 import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
 import org.example.required4testing.models.tests.TestCase;
+import org.example.required4testing.models.tests.TestRequirement;
 import org.example.required4testing.services.TestRequirementService;
 
 import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
@@ -26,21 +27,30 @@ public class TestRequirementViewModel {
 
     private String Title;
     private String Description;
-    private Collection<TestCase> TestCase;
+    private Collection<TestRequirementDto> testRequirements;
 
     public void save() {
         var ctx = FacesContext.getCurrentInstance();
-        var created = testRequirementService.CreateTestsRequirements(
-                new UserDto(),
-                new TestRequirementDto(
-                        getTitle(),
-                        getDescription(),
-                        getTestCase()));
+        var username = String.valueOf(ctx.getExternalContext()
+                .getSessionMap()
+                .get("username"));
+
+        var level = Integer.parseInt(
+                String.valueOf(ctx.getExternalContext()
+                        .getSessionMap()
+                        .get("level")));
+
+        var userDto = new UserDto(username, level);
+        var testRequirementDto = new TestRequirementDto(
+                getTitle(),
+                getDescription(),
+                null);
+        var created = testRequirementService.CreateTestsRequirements(userDto, testRequirementDto);
 
         if (!created) {
             ctx.addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR,
-                    "Check you data something went wrong",
+                    "You user level is to low",
                     null));
             ctx.validationFailed();
         }
@@ -53,10 +63,12 @@ public class TestRequirementViewModel {
     public TestRequirementViewModel() {
     }
 
-    public TestRequirementViewModel(String title, String description, Collection<TestCase> testCase) {
+    public TestRequirementViewModel(String username, String level, String title, String description, Collection<TestRequirementDto> testRequirements) {
+        Username = username;
+        Level = level;
         Title = title;
         Description = description;
-        TestCase = testCase;
+        this.testRequirements = testRequirements;
     }
 
     public String getUsername() {
@@ -91,11 +103,11 @@ public class TestRequirementViewModel {
         Description = description;
     }
 
-    public Collection<TestCase> getTestCase() {
-        return TestCase;
+    public Collection<TestRequirementDto> getTestRequirements() {
+        return this.testRequirementService.GetAll();
     }
 
-    public void setTestCase(Collection<TestCase> testCase) {
-        TestCase = testCase;
+    public void setTestRequirements(Collection<TestRequirementDto> testRequirements) {
+        this.testRequirements = testRequirements;
     }
 }

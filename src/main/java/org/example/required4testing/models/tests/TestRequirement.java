@@ -25,10 +25,11 @@ public class TestRequirement extends BaseEntity {
     public TestRequirement() {
     }
 
-    public TestRequirement(String title, String description, Collection<TestCase> testCase) {
+    public TestRequirement(String title, String description, Collection<TestCase> testCase, User createdByUser) {
         Title = title;
         Description = description;
         TestCase = testCase;
+        CreatedByUser = createdByUser;
     }
 
     public void setTestCase(Collection<TestCase> testCase) {

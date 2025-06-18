@@ -8,8 +8,8 @@
 </h:head>
 <h:body>
     <h1>
-        Name: <h:outputText value="#{testRequirementViewModel.username}" /> –
-        Level: <h:outputText value="#{testRequirementViewModel.level}" />
+        Name: <h:outputText value="#{testRequirementViewModel.username}"/> –
+        Level: <h:outputText value="#{testRequirementViewModel.level}"/>
     </h1>
     <h:form id="mainForm">
         <p:tabView dynamic="true">
@@ -30,22 +30,32 @@
                                      action="#{testRequirementViewModel.save}"
                                      update="@form"/>
 
-                    <p:messages id="msgs" showDetail="true" autoUpdate="true" />
+                    <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
                 </p:panel>
 
                 <p:panel header="Bestehende Anforderungen" style="margin-top:1em">
-                    <p:dataTable value="#{testRequirementViewModel.testCase}" var="testcase">
-                        <p:column headerText="Id">
-                            <h:outputText value="#{testcase.id}"/>
+                    <p:dataTable value="#{testRequirementViewModel.testRequirements}" var="requirements">
+                        <p:column headerText="Title">
+                            <h:outputText value="#{requirements.title}"/>
                         </p:column>
-                        <p:column headerText="TestCaseName">
-                            <h:outputText value="#{testcase.name}"/>
-                        </p:column>
-                        <p:column headerText="AssignedToUser">
-                            <h:outputText value="#{testcase.assignedToUser.name}"/>
+                        <p:column headerText="testCases">
+                            <p:dataTable value="#{requirements.testCase}" var="testcase">
+                                <p:column headerText="id">
+                                    <h:outputText value="#{testcase.id}"/>
+                                </p:column>
+                                <p:column headerText="description">
+                                    <h:outputText value="#{testcase.description}"/>
+                                </p:column>
+                                <p:column headerText="name">
+                                    <h:outputText value="#{testcase.name}"/>
+                                </p:column>
+                                <p:column headerText="assignedToUser">
+                                    <h:outputText value="#{testcase.assignedToUser}"/>
+                                </p:column>
+                            </p:dataTable>
                         </p:column>
                         <p:column headerText="Description">
-                            <h:outputText value="#{testcase.description}"/>
+                            <h:outputText value="#{requirements.description}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

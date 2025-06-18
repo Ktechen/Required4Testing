@@ -20,7 +20,7 @@ public class TestCase extends BaseEntity {
     public TestCase(String name, String description, User assignedToUser) {
         this.name = name;
         this.description = description;
-        AssignedToUser = assignedToUser;
+        this.AssignedToUser = assignedToUser;
     }
 
     public User getAssignedToUser() {
