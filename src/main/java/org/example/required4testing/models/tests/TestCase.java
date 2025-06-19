@@ -10,7 +10,7 @@ public class TestCase extends BaseEntity {
     private String name;
     private String description;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User AssignedToUser;
 

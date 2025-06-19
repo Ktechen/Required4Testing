@@ -18,30 +18,17 @@ public class TestRequirement extends BaseEntity {
     @JoinColumn()
     private Collection<TestCase> TestCase;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    private User CreatedByUser;
-
     public TestRequirement() {
     }
 
-    public TestRequirement(String title, String description, Collection<TestCase> testCase, User createdByUser) {
+    public TestRequirement(String title, String description, Collection<TestCase> testCase) {
         Title = title;
         Description = description;
         TestCase = testCase;
-        CreatedByUser = createdByUser;
     }
 
     public void setTestCase(Collection<TestCase> testCase) {
         TestCase = testCase;
-    }
-
-    public User getCreatedByUser() {
-        return CreatedByUser;
-    }
-
-    public void setCreatedByUser(User createdByUser) {
-        CreatedByUser = createdByUser;
     }
 
     public String getTitle() {

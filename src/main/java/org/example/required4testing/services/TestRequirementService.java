@@ -33,8 +33,7 @@ public class TestRequirementService {
         var testRequirement = new TestRequirement(
                 requirement.getTitle(),
                 requirement.getDescription(),
-                requirement.getTestCase(),
-                user.object()
+                requirement.getTestCase()
         );
         testRequirementRepository.save(testRequirement);
         return true;

@@ -7,11 +7,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
-import org.example.required4testing.models.tests.TestCase;
-import org.example.required4testing.models.tests.TestRequirement;
 import org.example.required4testing.services.TestRequirementService;
 
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
 import java.util.Collection;
 
 @Named
@@ -27,7 +24,7 @@ public class TestRequirementViewModel {
 
     private String Title;
     private String Description;
-    private Collection<TestRequirementDto> testRequirements;
+    private Collection<TestRequirementDto> TestRequirements;
 
     public void save() {
         var ctx = FacesContext.getCurrentInstance();
@@ -68,7 +65,7 @@ public class TestRequirementViewModel {
         Level = level;
         Title = title;
         Description = description;
-        this.testRequirements = testRequirements;
+        TestRequirements = testRequirements;
     }
 
     public String getUsername() {
@@ -108,6 +105,6 @@ public class TestRequirementViewModel {
     }
 
     public void setTestRequirements(Collection<TestRequirementDto> testRequirements) {
-        this.testRequirements = testRequirements;
+        this.TestRequirements = testRequirements;
     }
 }
