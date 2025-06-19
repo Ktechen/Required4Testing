@@ -1,45 +1,19 @@
 package org.example.required4testing.dtos;
 
-import org.example.required4testing.models.tests.TestCase;
-
 import java.util.Collection;
 
 public class TestRequirementDto {
-    private String Title;
-    private String Description;
+    private String title;
+    private String description;
+    private Collection<TestCaseDto> testCase;
 
-    private Collection<TestCase> TestCase;
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public Collection<TestCaseDto> getTestCase() { return testCase; }
 
-    public TestRequirementDto() {
-    }
-
-    public TestRequirementDto(String title, String description, Collection<TestCase> testCase) {
-        Title = title;
-        Description = description;
-        TestCase = testCase;
-    }
-
-    public String getTitle() {
-        return Title;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public Collection<TestCase> getTestCase() {
-        return TestCase;
-    }
-
-    public void setTestCase(Collection<TestCase> testCase) {
-        TestCase = testCase;
+    public TestRequirementDto(String title, String description, Collection<TestCaseDto> testCase) {
+        this.title = title;
+        this.description = description;
+        this.testCase = testCase;
     }
 }

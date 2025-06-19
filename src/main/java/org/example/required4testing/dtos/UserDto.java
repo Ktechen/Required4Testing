@@ -1,30 +1,28 @@
 package org.example.required4testing.dtos;
 
 public class UserDto {
+
     private String name;
-    private int Level;
+    private int level;
 
-    public UserDto() {
-    }
-
-    public UserDto(String name, int Level) {
+    public UserDto(String name, int level) {
         this.name = name;
-        this.Level = Level;
+        this.level = level;
     }
 
     public String getName() {
         return name;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public int getLevel() {
-        return Level;
-    }
-
     public void setLevel(int level) {
-        this.Level = level;
+        this.level = level;
     }
 }
