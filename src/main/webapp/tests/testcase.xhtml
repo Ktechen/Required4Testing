@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Testfälle</title>
+</h:head>
+<h:body>
+<h:form id="caseForm">
+    <p:panel header="Neuen Testfall anlegen">
+        <p:inputText id="name" value="#{testCaseViewModel.name}" required="true" placeholder="Name"/>
+        <p:inputTextarea id="desc" value="#{testCaseViewModel.description}" rows="3" required="true"/>
+
+        <p:selectOneMenu value="#{testCaseViewModel.userId}">
+            <f:selectItems value="#{testCaseViewModel.users}" var="u" itemLabel="#{u.name}" itemValue="#{u.id}"/>
+        </p:selectOneMenu>
+
+        <p:commandButton value="Speichern" action="#{testCaseViewModel.save}" update="@form"/>
+    </p:panel>
+
+    <p:panel header="Bestehende Testfälle">
+        <p:dataTable value="#{testCaseViewModel.testCases}" var="testcase">
+            <p:column headerText="Name"><h:outputText value="#{testcase.name}"/></p:column>
+            <p:column headerText="Beschreibung"><h:outputText value="#{testcase.description}"/></p:column>
+            <p:column headerText="Benutzer"><h:outputText value="#{testcase.user.name}"/></p:column>
+        </p:dataTable>
+    </p:panel>
+</h:form>
+</h:body>
+</html>

@@ -29,7 +29,7 @@ public class LoginViewModel {
             map.put("username", userValidation.object().getName());
             map.put("level", String.valueOf(userValidation.object().getLevel()));
             ctx.getExternalContext().getSessionMap().putAll(map);
-            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/tests/requirement.xhtml");
+            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/tests/testrequirement.xhtml");
         } else {
             ctx.addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR,

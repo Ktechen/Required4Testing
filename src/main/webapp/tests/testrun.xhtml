@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"><h:head><title>Testläufe</title></h:head>
+<h:body>
+<h:form id="runForm">
+    <p:panel header="Neuen Testlauf starten">
+        <p:calendar value="#{testRunViewModel.startFrom}" required="true" pattern="yyyy-MM-dd" showButtonPanel="true"/>
+        <p:commandButton value="Starten" action="#{testRunViewModel.save}" update="@form"/>
+    </p:panel>
+
+    <p:panel header="Vergangene Testläufe">
+        <p:dataTable value="#{testRunViewModel.testRuns}" var="run">
+            <p:column headerText="Start"><h:outputText value="#{run.startFrom}"/></p:column>
+        </p:dataTable>
+    </p:panel>
+</h:form>
+</h:body>
+</html>
