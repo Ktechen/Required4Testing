@@ -10,9 +10,15 @@
         <p:commandButton value="Starten" action="#{testRunViewModel.save}" update="@form"/>
     </p:panel>
 
-    <p:panel header="Vergangene Testläufe">
-        <p:dataTable value="#{testRunViewModel.testRuns}" var="run">
-            <p:column headerText="Start"><h:outputText value="#{run.startFrom}"/></p:column>
+    <p:panel header="Testläufe">
+        <p:dataTable value="#{testRunViewModel.testCases}" var="testcase">
+            <p:column headerText="Start"><h:outputText value="#{testcase.name}"/></p:column>
+        </p:dataTable>
+    </p:panel>
+
+    <p:panel header="TestResults">
+        <p:dataTable value="#{testRunViewModel.testResults}" var="results">
+            <p:column headerText="Start"><h:outputText value="#{results.testResultType.option}"/></p:column>
         </p:dataTable>
     </p:panel>
 </h:form>

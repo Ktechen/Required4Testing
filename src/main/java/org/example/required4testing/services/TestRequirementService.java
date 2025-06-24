@@ -5,7 +5,6 @@ import org.example.required4testing.dtos.TestCaseDto;
 import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
 import org.example.required4testing.models.UserLevelType;
-import org.example.required4testing.models.tests.TestCase;
 import org.example.required4testing.models.tests.TestRequirement;
 import org.example.required4testing.repositories.tests.TestCaseRepository;
 import org.example.required4testing.repositories.tests.TestRequirementRepository;
@@ -27,7 +26,7 @@ public class TestRequirementService {
     @Inject
     private UserService userService;
 
-    public boolean CreateTestsRequirements(UserDto userDto, TestRequirementDto requirement) {
+    public boolean create(UserDto userDto, TestRequirementDto requirement) {
         if (!UserLevelType.RequirementsEngineer.hasMinimumLevelRequirementsEngineer(userDto)) {
             return false;
         }

@@ -18,6 +18,9 @@ public class TestRequirementViewModel {
     @Inject
     private TestRequirementService testRequirementService;
 
+    @Inject
+    private LoginViewModel loginViewModel;
+
     private String Username;
 
     private String Level;
@@ -28,21 +31,12 @@ public class TestRequirementViewModel {
 
     public void save() {
         var ctx = FacesContext.getCurrentInstance();
-        var username = String.valueOf(ctx.getExternalContext()
-                .getSessionMap()
-                .get("username"));
-
-        var level = Integer.parseInt(
-                String.valueOf(ctx.getExternalContext()
-                        .getSessionMap()
-                        .get("level")));
-
-        var userDto = new UserDto(username, level);
+        var userDto = loginViewModel.GetUserFromSession();
         var testRequirementDto = new TestRequirementDto(
                 getTitle(),
                 getDescription(),
                 null);
-        var created = testRequirementService.CreateTestsRequirements(userDto, testRequirementDto);
+        var created = testRequirementService.create(userDto, testRequirementDto);
 
         if (!created) {
             ctx.addMessage(null, new FacesMessage(

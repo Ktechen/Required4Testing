@@ -2,7 +2,6 @@ package org.example.required4testing.models.tests;
 
 import jakarta.persistence.*;
 import org.example.required4testing.models.BaseEntity;
-import org.example.required4testing.models.User;
 
 import java.util.Collection;
 

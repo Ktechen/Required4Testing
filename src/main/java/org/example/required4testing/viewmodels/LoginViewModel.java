@@ -5,6 +5,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.example.required4testing.dtos.UserDto;
 import org.example.required4testing.services.UserService;
 
 import java.io.IOException;
@@ -37,6 +38,20 @@ public class LoginViewModel {
                     null));
             ctx.validationFailed();
         }
+    }
+
+    public UserDto GetUserFromSession() {
+        var ctx = FacesContext.getCurrentInstance();
+        var username = String.valueOf(ctx.getExternalContext()
+                .getSessionMap()
+                .get("username"));
+
+        var level = Integer.parseInt(
+                String.valueOf(ctx.getExternalContext()
+                        .getSessionMap()
+                        .get("level")));
+
+       return new UserDto(username, level);
     }
 
     public String getUsername() {

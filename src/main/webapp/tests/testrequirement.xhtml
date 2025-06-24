@@ -12,6 +12,13 @@
         Level: <h:outputText value="#{testRequirementViewModel.level}"/>
     </h1>
 
+    <h:form id="navForm">
+        <p:link outcome="/tests/testcase.xhtml" value="Test Case" styleClass="ui-button"/>
+        <p:link outcome="/tests/testrequirement.xhtml" value="Test Requirement" styleClass="ui-button"/>
+        <p:link outcome="/tests/testresult.xhtml" value="Test Result" styleClass="ui-button"/>
+        <p:link outcome="/tests/testrun.xhtml" value="Test Run" styleClass="ui-button"/>
+    </h:form>
+
     <h:form id="mainForm">
 
         <p:panel header="Neue Anforderung anlegen">
@@ -19,7 +26,8 @@
             <p:inputText id="reqTitle" value="#{testRequirementViewModel.title}" style="width:100%" required="true"/>
 
             <p:outputLabel for="reqDesc" value="Beschreibung:"/>
-            <p:inputTextarea id="reqDesc" value="#{testRequirementViewModel.description}" style="width:100%" rows="4" required="true"/>
+            <p:inputTextarea id="reqDesc" value="#{testRequirementViewModel.description}" style="width:100%" rows="4"
+                             required="true"/>
 
             <p:commandButton value="Anforderung speichern" action="#{testRequirementViewModel.save}" update="@form"/>
             <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
