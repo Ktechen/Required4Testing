@@ -8,15 +8,16 @@
 </h:head>
 <h:body>
     <h1>
-        Name: <h:outputText value="#{testRequirementViewModel.username}"/> –
-        Level: <h:outputText value="#{testRequirementViewModel.level}"/>
+        Name: <h:outputText value="#{loginViewModel.username}"/> –
+        Level: <h:outputText value="#{loginViewModel.level}"/>
     </h1>
 
     <h:form id="navForm">
-        <p:link outcome="/tests/testcase.xhtml" value="Test Case" styleClass="ui-button"/>
-        <p:link outcome="/tests/testrequirement.xhtml" value="Test Requirement" styleClass="ui-button"/>
-        <p:link outcome="/tests/testresult.xhtml" value="Test Result" styleClass="ui-button"/>
-        <p:link outcome="/tests/testrun.xhtml" value="Test Run" styleClass="ui-button"/>
+        <p:menu orientation="horizontal">
+            <p:menuitem value="Test Case" outcome="/tests/testcase.xhtml" icon="pi pi-file"/>
+            <p:menuitem value="Test Result" outcome="/tests/testresult.xhtml" icon="pi pi-chart-bar"/>
+            <p:menuitem value="Test Run" outcome="/tests/testrun.xhtml" icon="pi pi-play"/>
+        </p:menu>
     </h:form>
 
     <h:form id="mainForm">

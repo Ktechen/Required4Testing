@@ -8,6 +8,10 @@ public class TestCaseDto {
     private String description;
     private UserDto assignedUser;
 
+    public TestCaseDto() {
+
+    }
+
     public TestCaseDto(UUID id, String name, String description, UserDto assignedUser) {
         this.id = id;
         this.name = name;

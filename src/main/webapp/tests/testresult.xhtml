@@ -7,6 +7,17 @@
     <title>Testergebnisse</title>
 </h:head>
 <h:body>
+    <h1>
+        Name: <h:outputText value="#{loginViewModel.username}"/> –
+        Level: <h:outputText value="#{loginViewModel.level}"/>
+    </h1>
+    <h:form id="navForm">
+        <p:menu orientation="horizontal">
+            <p:menuitem value="Test Case" outcome="/tests/testcase.xhtml" icon="pi pi-file"/>
+            <p:menuitem value="Test Requirement" outcome="/tests/testrequirement.xhtml" icon="pi pi-check-square"/>
+            <p:menuitem value="Test Run" outcome="/tests/testrun.xhtml" icon="pi pi-play"/>
+        </p:menu>
+    </h:form>
 <h:form id="resultForm">
     <p:panel header="Neues Ergebnis erfassen">
         <p:selectOneMenu value="#{testResultViewModel.testRunId}">

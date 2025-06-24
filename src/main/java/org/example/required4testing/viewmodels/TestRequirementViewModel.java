@@ -21,9 +21,6 @@ public class TestRequirementViewModel {
     @Inject
     private LoginViewModel loginViewModel;
 
-    private String Username;
-
-    private String Level;
 
     private String Title;
     private String Description;
@@ -54,28 +51,10 @@ public class TestRequirementViewModel {
     public TestRequirementViewModel() {
     }
 
-    public TestRequirementViewModel(String username, String level, String title, String description, Collection<TestRequirementDto> testRequirements) {
-        Username = username;
-        Level = level;
+    public TestRequirementViewModel(String title, String description, Collection<TestRequirementDto> testRequirements) {
         Title = title;
         Description = description;
         TestRequirements = testRequirements;
-    }
-
-    public String getUsername() {
-        return (String) FacesContext
-                .getCurrentInstance()
-                .getExternalContext()
-                .getSessionMap()
-                .get("username");
-    }
-
-    public String getLevel() {
-        return FacesContext
-                .getCurrentInstance()
-                .getExternalContext()
-                .getSessionMap()
-                .get("level").toString();
     }
 
     public String getTitle() {

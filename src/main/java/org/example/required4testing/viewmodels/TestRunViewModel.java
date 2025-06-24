@@ -28,7 +28,7 @@ public class TestRunViewModel {
     public void save(){
         var ctx = FacesContext.getCurrentInstance();
         var userDto = loginViewModel.GetUserFromSession();
-        var created = testRunService.Create(userDto, new TestRunDto(""));
+        var created = testRunService.Create(userDto, new TestRunDto(StartFrom, TestResults, testCases));
 
         if (!created) {
             ctx.addMessage(null, new FacesMessage(

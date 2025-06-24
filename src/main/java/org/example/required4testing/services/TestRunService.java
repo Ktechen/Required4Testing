@@ -5,7 +5,9 @@ import org.example.required4testing.common.Result;
 import org.example.required4testing.dtos.TestCaseDto;
 import org.example.required4testing.dtos.TestRunDto;
 import org.example.required4testing.dtos.UserDto;
+import org.example.required4testing.models.User;
 import org.example.required4testing.models.UserLevelType;
+import org.example.required4testing.models.tests.TestCase;
 import org.example.required4testing.models.tests.TestResult;
 import org.example.required4testing.models.tests.TestRun;
 import org.example.required4testing.repositories.tests.TestRunRepository;
@@ -30,8 +32,25 @@ public class TestRunService {
             return false;
         }
 
-        var convertTestResult = testRunDto.getTestResults().stream().map(x -> new TestResult(x.getTestResultType()));
-        var convertTestCase = testRunDto.getTestResults().stream().map(x -> new TestCaseDto())
+        var convertTestResult = testRunDto.getTestResults()
+                .stream()
+                .map(x -> new TestResult(x.getTestResultType()))
+                .toList();
+
+        var convertTestCase = testRunDto.getTestCases()
+                .stream()
+                .map(x -> {
+                    var userResult = userService.GetUserByName(x.getAssignedUser().getName());
+                    if (userResult.success()) {
+                        return new TestCase(x.getName(), x.getDescription(), userResult.object());
+                    } else {
+                        return new TestCase(x.getName(), x.getDescription(), null);
+                    }
+                })
+                .toList();
+
         runRepository.save(new TestRun(testRunDto.getStartFrom(), convertTestResult, convertTestCase));
+
+        return true;
     }
 }

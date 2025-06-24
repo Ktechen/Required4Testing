@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class LoginViewModel {
     private String username;
     private String password;
+    private String level;
 
     @Inject
     private UserService userService;
@@ -55,11 +56,27 @@ public class LoginViewModel {
     }
 
     public String getUsername() {
-        return username;
+        return (String) FacesContext
+                .getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .get("username");
+    }
+
+    public String getLevel() {
+        return FacesContext
+                .getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .get("level").toString();
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getPassword() {

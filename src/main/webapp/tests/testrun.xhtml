@@ -4,6 +4,17 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"><h:head><title>Testläufe</title></h:head>
 <h:body>
+    <h1>
+        Name: <h:outputText value="#{loginViewModel.username}"/> –
+        Level: <h:outputText value="#{loginViewModel.level}"/>
+    </h1>
+    <h:form id="navForm">
+        <p:menu orientation="horizontal">
+            <p:menuitem value="Test Case" outcome="/tests/testcase.xhtml" icon="pi pi-file"/>
+            <p:menuitem value="Test Requirement" outcome="/tests/testrequirement.xhtml" icon="pi pi-check-square"/>
+            <p:menuitem value="Test Result" outcome="/tests/testresult.xhtml" icon="pi pi-chart-bar"/>
+        </p:menu>
+    </h:form>
 <h:form id="runForm">
     <p:panel header="Neuen Testlauf starten">
         <p:calendar value="#{testRunViewModel.startFrom}" required="true" pattern="yyyy-MM-dd" showButtonPanel="true"/>
