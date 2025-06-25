@@ -10,9 +10,9 @@
     </h1>
     <h:form id="navForm">
         <p:menu orientation="horizontal">
-            <p:menuitem value="Test Case" outcome="/tests/testcase.xhtml" icon="pi pi-file"/>
-            <p:menuitem value="Test Requirement" outcome="/tests/testrequirement.xhtml" icon="pi pi-check-square"/>
-            <p:menuitem value="Test Result" outcome="/tests/testresult.xhtml" icon="pi pi-chart-bar"/>
+            <p:menuitem value="Test Case" action="#{navbarViewModel.navigateToTestCase}" icon="pi pi-check-square" />
+            <p:menuitem value="Test Requirement" action="#{navbarViewModel.navigateToTestRequirement()}" icon="pi pi-chart-bar" />
+            <p:menuitem value="Test Result" action="#{navbarViewModel.navigateToTestResult()}" icon="pi pi-play" />
         </p:menu>
     </h:form>
 <h:form id="runForm">

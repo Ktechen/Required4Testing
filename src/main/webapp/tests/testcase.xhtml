@@ -24,6 +24,14 @@
         <p:inputText id="name" value="#{testCaseViewModel.name}" style="width:100%" required="true" placeholder="Name"/>
         <p:outputLabel for="desc" value="Beschreibung:"/>
         <p:inputTextarea id="desc" value="#{testCaseViewModel.description}" style="width:100%" rows="3" required="true"/>
+        <p:outputLabel for="user" value="AssignedToUser:" />
+        <p:selectOneMenu id="user" value="#{testCaseViewModel.assignedUser}" style="width:100%" required="true">
+            <f:selectItem itemLabel="-- Bitte wählen --" itemValue="#{null}" />
+            <f:selectItems value="#{testCaseViewModel.allUser}"
+                           var="user"
+                           itemValue="#{user}"
+                           itemLabel="#{user.name}" />
+        </p:selectOneMenu>
         <p:commandButton value="Speichern" action="#{testCaseViewModel.save}" update="@form"/>
     </p:panel>
 

@@ -53,7 +53,6 @@ public class TestRequirementService {
                         requirement.getTestCase() != null
                                 ? requirement.getTestCase().stream()
                                 .map(testCase -> new TestCaseDto(
-                                        testCase.getId(),
                                         testCase.getName(),
                                         testCase.getDescription(),
                                         new UserDto(

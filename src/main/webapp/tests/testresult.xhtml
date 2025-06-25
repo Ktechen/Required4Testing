@@ -13,9 +13,9 @@
     </h1>
     <h:form id="navForm">
         <p:menu orientation="horizontal">
-            <p:menuitem value="Test Case" outcome="/tests/testcase.xhtml" icon="pi pi-file"/>
-            <p:menuitem value="Test Requirement" outcome="/tests/testrequirement.xhtml" icon="pi pi-check-square"/>
-            <p:menuitem value="Test Run" outcome="/tests/testrun.xhtml" icon="pi pi-play"/>
+            <p:menuitem value="Test Case" action="#{navbarViewModel.navigateToTestCase}" icon="pi pi-check-square" />
+            <p:menuitem value="Test Requirement" action="#{navbarViewModel.navigateToTestRequirement()}" icon="pi pi-chart-bar" />
+            <p:menuitem value="Test Run" action="#{navbarViewModel.navigateToTestRun}" icon="pi pi-play" />
         </p:menu>
     </h:form>
 <h:form id="resultForm">

@@ -9,7 +9,9 @@ import org.example.required4testing.dtos.UserDto;
 import org.example.required4testing.services.UserService;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Named
 @RequestScoped

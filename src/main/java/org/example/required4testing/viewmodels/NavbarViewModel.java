@@ -7,6 +7,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.models.UserLevelType;
 
+import java.io.IOException;
+
 @Named
 @RequestScoped
 public class NavbarViewModel {
@@ -14,31 +16,35 @@ public class NavbarViewModel {
     @Inject
     private LoginViewModel loginViewModel;
 
-    public String navigateToTestRequirement() {
-        if (loginViewModel.GetUserFromSession().getLevel() >= UserLevelType.RequirementsEngineer.getValue()) {
-            return "/tests/testrequirement.xhtml";
-        }
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Access Denied", String.format("Level %s required.", UserLevelType.RequirementsEngineer.name())));
-        return null; // Stay on page
+    public String navigateToTestRequirement() throws IOException {
+        return navigateIfAuthorized(UserLevelType.RequirementsEngineer, "/tests/testrequirement.xhtml");
     }
 
-    public String navigateToTestResult() {
-        if (loginViewModel.GetUserFromSession().getLevel() >= UserLevelType.Testmanager.getValue()) {
-            return "/tests/testresult.xhtml";
+    public String navigateToTestResult() throws IOException {
+        return navigateIfAuthorized(UserLevelType.Testfallersteller, "/tests/testresult.xhtml");
+    }
+
+    public String navigateToTestRun() throws IOException {
+        return navigateIfAuthorized(UserLevelType.Tester, "/tests/testrun.xhtml");
+    }
+
+    public String navigateToTestCase() throws IOException {
+        return navigateIfAuthorized(UserLevelType.Testmanager, "/tests/testcase.xhtml");
+    }
+
+    private String navigateIfAuthorized(UserLevelType requiredLevel, String path) throws IOException {
+        var ctx = FacesContext.getCurrentInstance();
+        int userLevel = loginViewModel.GetUserFromSession().getLevel();
+
+        if (userLevel >= requiredLevel.getValue()) {
+            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + path);
+            return path;
         }
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Access Denied", String.format("Level %s required.", UserLevelType.Testmanager.name())));
+
+        ctx.addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Access Denied",
+                        String.format("Level %s required.", requiredLevel.name())));
+        ctx.validationFailed();
         return null;
     }
-
-    public String navigateToTestRun() {
-        if (loginViewModel.GetUserFromSession().getLevel() >= UserLevelType.Tester.getValue()) {
-            return "/tests/testrun.xhtml";
-        }
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Access Denied", String.format("Level %s required.", UserLevelType.Tester.name())));
-        return null;
-    }
-
 }

@@ -21,7 +21,6 @@ public class TestRequirementViewModel {
     @Inject
     private LoginViewModel loginViewModel;
 
-
     private String Title;
     private String Description;
     private Collection<TestRequirementDto> TestRequirements;
