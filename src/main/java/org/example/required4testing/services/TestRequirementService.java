@@ -56,6 +56,7 @@ public class TestRequirementService {
                                         testCase.getName(),
                                         testCase.getDescription(),
                                         new UserDto(
+                                                testCase.getAssignedToUser().getId(),
                                                 testCase.getAssignedToUser().getName(),
                                                 testCase.getAssignedToUser().getLevel()
                                         )

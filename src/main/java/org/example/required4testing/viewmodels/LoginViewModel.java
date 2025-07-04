@@ -54,7 +54,7 @@ public class LoginViewModel {
                         .getSessionMap()
                         .get("level")));
 
-       return new UserDto(username, level);
+       return new UserDto(null, username, level);
     }
 
     public String getUsername() {

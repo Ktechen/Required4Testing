@@ -1,6 +1,5 @@
 package org.example.required4testing.viewmodels;
 
-import jakarta.el.MethodExpression;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -12,6 +11,7 @@ import org.example.required4testing.services.TestCaseService;
 import org.example.required4testing.services.UserService;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,8 @@ public class TestCaseViewModel {
     private UUID id;
     private String name;
     private String description;
-    private UserDto assignedUser;
+    private String assignedUserName;
+    private Collection<TestCaseDto> testCases;
 
     @Inject
     private UserService userService;
@@ -31,6 +32,8 @@ public class TestCaseViewModel {
 
     @Inject
     private LoginViewModel loginViewModel;
+
+    // --- Getter/Setter ---
 
     public UUID getId() {
         return id;
@@ -56,33 +59,61 @@ public class TestCaseViewModel {
         this.description = description;
     }
 
-    public UserDto getAssignedUser() {
-        return assignedUser;
+    public String getAssignedUserName() {
+        return assignedUserName;
     }
 
-    public Collection<UserDto> getAllUser() {
+    public void setAssignedUserName(String assignedUserName) {
+        this.assignedUserName = assignedUserName;
+    }
+
+    public void setTestCases(Collection<TestCaseDto> testCases) {
+        this.testCases = testCases;
+    }
+
+    public Collection<TestCaseDto> getTestCases() {
+        setTestCases(testCaseService.GetAll().stream()
+                .map(x -> new TestCaseDto(
+                        x.getName(),
+                        x.getDescription(),
+                        x.getAssignedUser() != null
+                                ? x.getAssignedUser()
+                                : new UserDto(null, "Not Set", -1)
+                ))
+                .collect(Collectors.toList()));
+        return testCases;
+    }
+
+    public List<String> searchUserNames(String query) {
         return userService.getAll().stream()
-                .map(x -> new UserDto(x.getName(), x.getLevel()))
+                .map(u -> u.getName())
+                .filter(name -> name.toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
-    }
-
-    public void setAssignedUser(UserDto assignedUser) {
-        this.assignedUser = assignedUser;
     }
 
     public void save() {
         var ctx = FacesContext.getCurrentInstance();
         var userDto = loginViewModel.GetUserFromSession();
+
+        var assignedUser = userService.getAll().stream()
+                .filter(u -> u.getName().equalsIgnoreCase(assignedUserName))
+                .findFirst()
+                .map(u -> new UserDto(u.getId(), u.getName(), u.getLevel()))
+                .orElse(null);
+
         var created = testCaseService.create(userDto, new TestCaseDto(name, description, assignedUser));
+
         if (!created) {
             ctx.addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR,
-                    "Something went wrong",
-                    null));
+                    "Something went wrong", null));
             ctx.validationFailed();
+            return;
         }
+
         ctx.addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Testcase gespeichert", null));
     }
 }
+
