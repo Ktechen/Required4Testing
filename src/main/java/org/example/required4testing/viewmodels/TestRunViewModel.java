@@ -25,7 +25,7 @@ public class TestRunViewModel {
     @Inject
     private LoginViewModel loginViewModel;
 
-    public void save(){
+    public void save() {
         var ctx = FacesContext.getCurrentInstance();
         var userDto = loginViewModel.GetUserFromSession();
         var created = testRunService.Create(userDto, new TestRunDto(StartFrom, TestResults, testCases));

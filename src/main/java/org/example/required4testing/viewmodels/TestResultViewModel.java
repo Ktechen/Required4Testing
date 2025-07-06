@@ -16,7 +16,7 @@ public class TestResultViewModel {
     private int testResultTypeId;
     private TestResultType testResultType;
 
-    public void save(){
+    public void save() {
 
     }
 

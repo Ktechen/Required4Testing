@@ -1,7 +1,5 @@
 package org.example.required4testing.dtos;
 
-import java.util.UUID;
-
 public class TestCaseDto {
     private String name;
     private String description;
@@ -29,8 +27,16 @@ public class TestCaseDto {
         this.assignedUser = assignedUser;
     }
 
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public UserDto getAssignedUser() { return assignedUser; }
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public UserDto getAssignedUser() {
+        return assignedUser;
+    }
 }
 

@@ -2,6 +2,8 @@ package org.example.required4testing.models;
 
 import org.example.required4testing.dtos.UserDto;
 
+import java.util.Arrays;
+
 public enum UserLevelType {
     Tester(0),
     Testfallersteller(10),
@@ -16,6 +18,13 @@ public enum UserLevelType {
 
     public int getValue() {
         return value;
+    }
+
+    public static UserLevelType fromLevel(int level) {
+        return Arrays.stream(values())
+                .filter(type -> type.value == level)
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean hasMinimumLevelRequirementsEngineer(UserDto userDto) {

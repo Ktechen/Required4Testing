@@ -2,17 +2,13 @@ package org.example.required4testing.services;
 
 import jakarta.inject.Inject;
 import org.example.required4testing.dtos.TestCaseDto;
-import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
-import org.example.required4testing.models.User;
 import org.example.required4testing.models.UserLevelType;
 import org.example.required4testing.models.tests.TestCase;
-import org.example.required4testing.models.tests.TestRequirement;
 import org.example.required4testing.repositories.tests.TestCaseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +47,7 @@ public class TestCaseService {
                     var assignedUser = x.getAssignedToUser();
                     UserDto userDto = assignedUser != null
                             ? new UserDto(assignedUser.getId(), assignedUser.getName(), assignedUser.getLevel())
-                            : new UserDto(null,"Not Set", -1);
+                            : new UserDto(null, "Not Set", -1);
 
                     return new TestCaseDto(
                             x.getName(),

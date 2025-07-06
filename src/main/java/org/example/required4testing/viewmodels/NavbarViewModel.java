@@ -16,6 +16,11 @@ public class NavbarViewModel {
     @Inject
     private LoginViewModel loginViewModel;
 
+    public void navigateToOverview() throws IOException {
+        var ctx = FacesContext.getCurrentInstance();
+        ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/overview.xhtml");
+    }
+
     public String navigateToTestRequirement() throws IOException {
         return navigateIfAuthorized(UserLevelType.RequirementsEngineer, "/tests/testrequirement.xhtml");
     }
@@ -42,8 +47,9 @@ public class NavbarViewModel {
         }
 
         ctx.addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Access Denied",
-                        String.format("Level %s required.", requiredLevel.name())));
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Access Denied",
+                        String.format("Level %s required.", requiredLevel.name()) + " Your level is " + UserLevelType.fromLevel(userLevel).name())
+        );
         ctx.validationFailed();
         return null;
     }

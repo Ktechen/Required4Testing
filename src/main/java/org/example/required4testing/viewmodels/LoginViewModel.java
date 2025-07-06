@@ -6,12 +6,11 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.dtos.UserDto;
+import org.example.required4testing.models.UserLevelType;
 import org.example.required4testing.services.UserService;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
@@ -29,11 +28,11 @@ public class LoginViewModel {
 
         var userValidation = userService.validate(username, password);
         if (userValidation.success()) {
-            var map =  new HashMap<String, Object>();
+            var map = new HashMap<String, Object>();
             map.put("username", userValidation.object().getName());
             map.put("level", String.valueOf(userValidation.object().getLevel()));
             ctx.getExternalContext().getSessionMap().putAll(map);
-            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/tests/testrequirement.xhtml");
+            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/overview.xhtml");
         } else {
             ctx.addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR,
@@ -54,7 +53,7 @@ public class LoginViewModel {
                         .getSessionMap()
                         .get("level")));
 
-       return new UserDto(null, username, level);
+        return new UserDto(null, username, level);
     }
 
     public String getUsername() {
@@ -66,11 +65,14 @@ public class LoginViewModel {
     }
 
     public String getLevel() {
-        return FacesContext
-                .getCurrentInstance()
-                .getExternalContext()
-                .getSessionMap()
-                .get("level").toString();
+        int level = Integer.parseInt(
+                FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .getSessionMap()
+                        .get("level")
+                        .toString()
+        );
+        return UserLevelType.fromLevel(level).name();
     }
 
     public void setUsername(String username) {

@@ -1,10 +1,12 @@
 package org.example.required4testing.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "app_user")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String name;

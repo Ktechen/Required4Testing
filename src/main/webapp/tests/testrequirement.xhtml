@@ -1,68 +1,89 @@
-﻿<!DOCTYPE html>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Test Requirements</title>
 </h:head>
 <h:body>
-    <h1>
-        Name: <h:outputText value="#{loginViewModel.username}"/> –
-        Level: <h:outputText value="#{loginViewModel.level}"/>
-    </h1>
+        <h1>
+            Name: <h:outputText value="#{loginViewModel.username}" /> –
+            Level: <h:outputText value="#{loginViewModel.level}" />
+        </h1>
 
-    <h:form id="navForm">
-        <p:menu orientation="horizontal">
-            <p:menuitem value="Test Case" action="#{navbarViewModel.navigateToTestCase}" icon="pi pi-check-square" />
-            <p:menuitem value="Test Result" action="#{navbarViewModel.navigateToTestResult}" icon="pi pi-chart-bar" />
-            <p:menuitem value="Test Run" action="#{navbarViewModel.navigateToTestRun}" icon="pi pi-play" />
-        </p:menu>
-    </h:form>
-    <h:form id="mainForm">
+        <h:form id="navForm" style="margin-bottom: 10px">
+            <p:menubar>
+                <p:menuitem
+                        value="Overview"
+                        icon="pi pi-home"
+                        action="#{navbarViewModel.navigateToOverview}"
+                />
+            </p:menubar>
+        </h:form>
 
-        <p:panel header="Neue Anforderung anlegen">
-            <p:outputLabel for="reqTitle" value="Titel:"/>
-            <p:inputText id="reqTitle" value="#{testRequirementViewModel.title}" style="width:100%" required="true"/>
+        <h:form id="mainForm">
+            <p:panel header="Neue Anforderung anlegen">
+                <p:outputLabel for="reqTitle" value="Titel:" />
+                <p:inputText
+                        id="reqTitle"
+                        value="#{testRequirementViewModel.title}"
+                        style="width:100%"
+                        required="true"
+                />
 
-            <p:outputLabel for="reqDesc" value="Beschreibung:"/>
-            <p:inputTextarea id="reqDesc" value="#{testRequirementViewModel.description}" style="width:100%" rows="4"
-                             required="true"/>
+                <p:outputLabel for="reqDesc" value="Beschreibung:" />
+                <p:inputTextarea
+                        id="reqDesc"
+                        value="#{testRequirementViewModel.description}"
+                        style="width:100%"
+                        rows="4"
+                        required="true"
+                />
 
-            <p:commandButton value="Anforderung speichern" action="#{testRequirementViewModel.save}" update="@form"/>
-            <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
-        </p:panel>
+                <p:commandButton
+                        value="Anforderung speichern"
+                        action="#{testRequirementViewModel.save}"
+                        update="@form"
+                />
+                <p:messages id="msgs" showDetail="true" autoUpdate="true" />
+            </p:panel>
 
-        <p:panel header="Bestehende Anforderungen">
-            <p:dataTable value="#{testRequirementViewModel.testRequirements}" var="requirement">
-                <p:column headerText="Title">
-                    <h:outputText value="#{requirement.title}"/>
-                </p:column>
-                <p:column headerText="Description">
-                    <h:outputText value="#{requirement.description}"/>
-                </p:column>
-                <p:column headerText="Test Cases">
-                    <p:dataTable value="#{requirement.testCase}" var="testcase">
-                        <p:column headerText="ID">
-                            <h:outputText value="#{testcase.id}"/>
-                        </p:column>
-                        <p:column headerText="Name">
-                            <h:outputText value="#{testcase.name}"/>
-                        </p:column>
-                        <p:column headerText="Description">
-                            <h:outputText value="#{testcase.description}"/>
-                        </p:column>
-                        <p:column headerText="Assigned To">
-                            <h:outputText value="#{testcase.assignedUser.name}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:column>
-                <p:column headerText="Description">
-                    <h:outputText value="#{requirement.description}"/>
-                </p:column>
-            </p:dataTable>
-        </p:panel>
+            <p:panel header="Bestehende Anforderungen">
+                <p:dataTable
+                        value="#{testRequirementViewModel.testRequirements}"
+                        var="requirement"
+                        emptyMessage="Keine Anforderungen vorhanden"
+                >
+                    <p:column headerText="Titel">
+                        <h:outputText value="#{requirement.title}" />
+                    </p:column>
 
-    </h:form>
+                    <p:column headerText="Beschreibung">
+                        <h:outputText value="#{requirement.description}" />
+                    </p:column>
+
+                    <p:column headerText="Testfälle">
+                        <p:dataTable
+                                value="#{requirement.testCase}"
+                                var="testcase"
+                                emptyMessage="Keine Testfälle"
+                        >
+                            <p:column headerText="Name">
+                                <h:outputText value="#{testcase.name}" />
+                            </p:column>
+                            <p:column headerText="Beschreibung">
+                                <h:outputText value="#{testcase.description}" />
+                            </p:column>
+                            <p:column headerText="Zuständig">
+                                <h:outputText value="#{testcase.assignedUser.name}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
 </h:body>
 </html>

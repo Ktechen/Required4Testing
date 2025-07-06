@@ -11,12 +11,14 @@
         Name: <h:outputText value="#{loginViewModel.username}"/> –
         Level: <h:outputText value="#{loginViewModel.level}"/>
     </h1>
-    <h:form id="navForm">
-        <p:menu orientation="horizontal">
-            <p:menuitem value="Test Case" action="#{navbarViewModel.navigateToTestCase}" icon="pi pi-check-square" />
-            <p:menuitem value="Test Requirement" action="#{navbarViewModel.navigateToTestRequirement()}" icon="pi pi-chart-bar" />
-            <p:menuitem value="Test Run" action="#{navbarViewModel.navigateToTestRun}" icon="pi pi-play" />
-        </p:menu>
+    <h:form id="navForm" style="margin-bottom: 10px">
+        <p:menubar>
+            <p:menuitem
+                    value="Overview"
+                    icon="pi pi-home"
+                    action="#{navbarViewModel.navigateToOverview}"
+            />
+        </p:menubar>
     </h:form>
 <h:form id="resultForm">
     <p:panel header="Neues Ergebnis erfassen">
