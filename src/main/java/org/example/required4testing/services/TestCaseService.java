@@ -9,6 +9,7 @@ import org.example.required4testing.repositories.tests.TestCaseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,14 +31,20 @@ public class TestCaseService {
             return false;
         }
 
-        var assignedUserName = testCaseDto.getAssignedUser().getName();
-        var assignedUser = userService.GetUserByName(assignedUserName);
+        TestCase testcase = null;
+        if(testCaseDto.getAssignedUser() != null) {
+            var assignedUserName = testCaseDto.getAssignedUser().getName();
+            var assignedUser = userService.GetUserByName(assignedUserName);
 
-        if (!assignedUser.success()) {
-            return false;
+            if (!assignedUser.success()) {
+                return false;
+            }
+
+            new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), assignedUser.object());
+        }else{
+            testcase = new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), null);
         }
-        var testcase = new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), assignedUser.object());
-        testCaseRepository.save(testcase);
+        testCaseRepository.save(Objects.requireNonNull(testcase));
         return true;
     }
 
@@ -56,5 +63,9 @@ public class TestCaseService {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void updateAssignedUser(TestCaseDto testCaseDto, UserDto userDto) {
+        this.testCaseRepository.findAll().stream().map(x -> Objects.equals(x.getName(), testCaseDto.getName()));
     }
 }

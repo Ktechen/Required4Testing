@@ -32,11 +32,10 @@
                         completeMethod="#{testCaseViewModel.searchUserNames}"
                         forceSelection="true"
                         placeholder="Benutzer suchen..."
-                        style="width:100%"
-                        required="true"/>
+                        style="width:100%" />
         <p:commandButton value="Speichern" action="#{testCaseViewModel.save}" update="@form"/>
     </p:panel>
-
+</h:form>
     <p:panel header="Bestehende Testfälle">
         <h:form id="form">
             <p:dataTable id="testCasesTable" value="#{testCaseViewModel.testCases}" var="testcase">
@@ -56,22 +55,19 @@
                             forceSelection="true"
                             placeholder="#{testcase.assignedUser.name}"
                             style="width:100%"
-                            required="true"/>
+                           />
                 </p:column>
 
                 <p:column headerText="Update Benutzer">
                     <p:commandButton
                             icon="pi pi-check"
                             title="Aktualisieren"
-                            actionListener="#{testCaseViewModel.updateAssignedUser}"
+                            action="#{testCaseViewModel.updateAssignedUser(testcase)}"
                             update="testCasesTable"/>
                 </p:column>
 
             </p:dataTable>
         </h:form>
     </p:panel>
-
-
-</h:form>
 </h:body>
 </html>

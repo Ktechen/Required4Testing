@@ -3,7 +3,6 @@ package org.example.required4testing.viewmodels;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.ActionListener;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.dtos.TestCaseDto;
@@ -115,8 +114,9 @@ public class TestCaseViewModel {
                         "Testcase gespeichert", null));
     }
 
-    public void updateAssignedUser() {
+    public void updateAssignedUser(TestCaseDto testCaseDto) {
         var ctx = FacesContext.getCurrentInstance();
+        testCaseService.updateAssignedUser(testCaseDto, new UserDto());
     }
 }
 
