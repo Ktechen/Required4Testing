@@ -3,6 +3,7 @@ package org.example.required4testing.viewmodels;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.dtos.TestCaseDto;
@@ -16,7 +17,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class TestCaseViewModel {
     private UUID id;
     private String name;
@@ -70,7 +71,7 @@ public class TestCaseViewModel {
     }
 
     public Collection<TestCaseDto> getTestCases() {
-        setTestCases(testCaseService.GetAll().stream()
+        return testCaseService.GetAll().stream()
                 .map(x -> new TestCaseDto(
                         x.getName(),
                         x.getDescription(),
@@ -78,15 +79,19 @@ public class TestCaseViewModel {
                                 ? x.getAssignedUser()
                                 : new UserDto(null, "Not Set", -1)
                 ))
-                .collect(Collectors.toList()));
-        return testCases;
+                .collect(Collectors.toList());
     }
 
+
     public List<String> searchUserNames(String query) {
-        return userService.getAll().stream()
+        var users = userService.getAll().stream()
                 .map(u -> u.getName())
                 .filter(name -> name.toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
+
+        users.stream().findFirst().ifPresent(this::setAssignedUserName);
+
+        return users;
     }
 
     public void save() {
@@ -116,7 +121,14 @@ public class TestCaseViewModel {
 
     public void updateAssignedUser(TestCaseDto testCaseDto) {
         var ctx = FacesContext.getCurrentInstance();
-        testCaseService.updateAssignedUser(testCaseDto, new UserDto());
+        var user = userService.GetUserByName(testCaseDto.getAssignedUser().getName());
+        if (!user.success()) {
+            ctx.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "User not found", null));
+            return;
+        }
+        testCaseService.updateAssignedUser(testCaseDto);
     }
 }
 

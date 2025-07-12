@@ -65,7 +65,22 @@ public class TestCaseService {
                 .collect(Collectors.toList());
     }
 
-    public void updateAssignedUser(TestCaseDto testCaseDto, UserDto userDto) {
-        this.testCaseRepository.findAll().stream().map(x -> Objects.equals(x.getName(), testCaseDto.getName()));
+    public boolean updateAssignedUser(TestCaseDto testCaseDto) {
+        var user = userService.GetUserByName(testCaseDto.getAssignedUser().getName());
+        var existingTestCase = this.testCaseRepository.findAll()
+                .stream()
+                .filter(tc -> tc.getName().equalsIgnoreCase(testCaseDto.getName()))
+                .findFirst()
+                .orElse(null);
+
+        if(existingTestCase == null || !user.success()) {
+            return false;
+        }
+
+        existingTestCase.setAssignedToUser(user.object());
+
+        this.testCaseRepository.update()
+
+        return true;
     }
 }

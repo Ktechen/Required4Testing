@@ -50,7 +50,7 @@
 
                 <p:column headerText="Benutzer">
                     <p:autoComplete
-                            value="#{testCaseViewModel.assignedUserName}"
+                            value="#{testcase.assignedUser.name}"
                             completeMethod="#{testCaseViewModel.searchUserNames}"
                             forceSelection="true"
                             placeholder="#{testcase.assignedUser.name}"
