@@ -3,6 +3,7 @@ package org.example.required4testing.services;
 import jakarta.inject.Inject;
 import org.example.required4testing.dtos.TestCaseDto;
 import org.example.required4testing.dtos.UserDto;
+import org.example.required4testing.models.User;
 import org.example.required4testing.models.UserLevelType;
 import org.example.required4testing.models.tests.TestCase;
 import org.example.required4testing.repositories.tests.TestCaseRepository;
@@ -40,7 +41,7 @@ public class TestCaseService {
                 return false;
             }
 
-            new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), assignedUser.object());
+            testcase = new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), assignedUser.object());
         }else{
             testcase = new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), null);
         }
@@ -65,22 +66,19 @@ public class TestCaseService {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateAssignedUser(TestCaseDto testCaseDto) {
-        var user = userService.GetUserByName(testCaseDto.getAssignedUser().getName());
+    public boolean updateAssignedUser(TestCaseDto testCaseDto, User user) {
         var existingTestCase = this.testCaseRepository.findAll()
                 .stream()
-                .filter(tc -> tc.getName().equalsIgnoreCase(testCaseDto.getName()))
+                .filter(x -> x.getName().equalsIgnoreCase(testCaseDto.getName()))
                 .findFirst()
                 .orElse(null);
 
-        if(existingTestCase == null || !user.success()) {
+        if(existingTestCase == null) {
             return false;
         }
 
-        existingTestCase.setAssignedToUser(user.object());
-
-        this.testCaseRepository.update()
-
+        existingTestCase.setAssignedToUser(user);
+        this.testCaseRepository.save(existingTestCase);
         return true;
     }
 }

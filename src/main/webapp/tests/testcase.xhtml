@@ -48,7 +48,7 @@
                     <h:outputText value="#{testcase.description}"/>
                 </p:column>
 
-                <p:column headerText="Benutzer">
+                <p:column headerText="Tester">
                     <p:autoComplete
                             value="#{testcase.assignedUser.name}"
                             completeMethod="#{testCaseViewModel.searchUserNames}"
@@ -58,7 +58,7 @@
                            />
                 </p:column>
 
-                <p:column headerText="Update Benutzer">
+                <p:column headerText="Update Tester">
                     <p:commandButton
                             icon="pi pi-check"
                             title="Aktualisieren"
@@ -66,8 +66,27 @@
                             update="testCasesTable"/>
                 </p:column>
 
+                <p:column headerText="Requirements">
+                    <p:autoComplete
+                            value="#{testcase.assignedUser.name}"
+                            completeMethod="#{testCaseViewModel.searchTestRequirement}"
+                            forceSelection="true"
+                            placeholder="#{testcase.assignedUser.name}"
+                            style="width:100%"
+                    />
+                </p:column>
+
+                <p:column headerText="Update Requirements">
+                    <p:commandButton
+                            icon="pi pi-check"
+                            title="Aktualisieren"
+                            action="#{testCaseViewModel.updateRequirements(testcase)}"
+                            update="testCasesTable"/>
+                </p:column>
+
             </p:dataTable>
         </h:form>
     </p:panel>
+
 </h:body>
 </html>

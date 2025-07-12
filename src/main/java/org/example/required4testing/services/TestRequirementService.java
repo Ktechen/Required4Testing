@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +43,35 @@ public class TestRequirementService {
                 null
         );
         testRequirementRepository.save(testRequirement);
+        return true;
+    }
+
+    public boolean update(UserDto userDto, TestCaseDto testCaseDto, UUID requirementId) {
+        if(!UserLevelType.Testfallersteller.hasMinimumLevelRequirementsEngineer(userDto)) {
+            return false;
+        }
+
+        var requirement = testRequirementRepository.findById(requirementId).orElse(null);
+        if (requirement == null) {
+            return false;
+        }
+
+        var findTestCase = testCaseRepository
+                .findAll()
+                .stream()
+                .filter(x -> x.getName().equalsIgnoreCase(testCaseDto.getName()))
+                .findFirst()
+                .orElse(null);
+
+        if (findTestCase == null) {
+            return false;
+        }
+
+        var getTestCases = requirement.getTestCase();
+        getTestCases.add(findTestCase);
+        requirement.setTestCase(getTestCases);
+
+        testRequirementRepository.save(requirement);
         return true;
     }
 

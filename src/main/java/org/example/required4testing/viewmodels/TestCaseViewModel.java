@@ -7,8 +7,12 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.dtos.TestCaseDto;
+import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
+import org.example.required4testing.models.User;
+import org.example.required4testing.repositories.tests.TestCaseRepository;
 import org.example.required4testing.services.TestCaseService;
+import org.example.required4testing.services.TestRequirementService;
 import org.example.required4testing.services.UserService;
 
 import java.util.Collection;
@@ -33,6 +37,9 @@ public class TestCaseViewModel {
 
     @Inject
     private LoginViewModel loginViewModel;
+
+    @Inject
+    private TestRequirementService testRequirementService;
 
     public UUID getId() {
         return id;
@@ -85,13 +92,17 @@ public class TestCaseViewModel {
 
     public List<String> searchUserNames(String query) {
         var users = userService.getAll().stream()
-                .map(u -> u.getName())
+                .map(User::getName)
                 .filter(name -> name.toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
 
         users.stream().findFirst().ifPresent(this::setAssignedUserName);
 
         return users;
+    }
+
+    public List<String> searchTestRequirement(String query) {
+        return testCaseService.GetAll().stream().map(TestCaseDto::getName).filter(x -> name.toLowerCase().contains(query.toLowerCase())).collect(Collectors.toList());
     }
 
     public void save() {
@@ -121,14 +132,30 @@ public class TestCaseViewModel {
 
     public void updateAssignedUser(TestCaseDto testCaseDto) {
         var ctx = FacesContext.getCurrentInstance();
-        var user = userService.GetUserByName(testCaseDto.getAssignedUser().getName());
+        var user = userService.GetUserByName(assignedUserName);
         if (!user.success()) {
             ctx.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "User not found", null));
+            ctx.validationFailed();
             return;
         }
-        testCaseService.updateAssignedUser(testCaseDto);
+        testCaseService.updateAssignedUser(testCaseDto, user.object());
+    }
+
+    public void updateRequirements(TestCaseDto testCaseDto) {
+        var ctx = FacesContext.getCurrentInstance();
+        var user = userService.GetUserByName(assignedUserName);
+        if (!user.success()) {
+            ctx.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "User not found", null));
+            ctx.validationFailed();
+            return;
+        }
+        var userDto = new UserDto(user.object().getId(), user.object().getName(), user.object().getLevel());
+        testRequirementService.update(userDto, testCaseDto, );
+
     }
 }
 
