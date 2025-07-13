@@ -46,13 +46,13 @@ public class TestRequirementService {
         return true;
     }
 
-    public boolean update(UserDto userDto, TestCaseDto testCaseDto, UUID requirementId) {
+    public boolean update(UserDto userDto, TestCaseDto testCaseDto) {
         if(!UserLevelType.Testfallersteller.hasMinimumLevelRequirementsEngineer(userDto)) {
             return false;
         }
 
-        var requirement = testRequirementRepository.findById(requirementId).orElse(null);
-        if (requirement == null) {
+        var requirement = testRequirementRepository.findAll().stream().filter(t -> t.getTitle().equals(testCaseDto.getSelectedRequirement())).findFirst();
+        if (requirement.isEmpty()) {
             return false;
         }
 
@@ -67,11 +67,11 @@ public class TestRequirementService {
             return false;
         }
 
-        var getTestCases = requirement.getTestCase();
-        getTestCases.add(findTestCase);
-        requirement.setTestCase(getTestCases);
+        var testCases = requirement.get().getTestCase();
+        testCases.add(findTestCase);
+        requirement.get().setTestCase(testCases);
 
-        testRequirementRepository.save(requirement);
+        testRequirementRepository.save(requirement.get());
         return true;
     }
 

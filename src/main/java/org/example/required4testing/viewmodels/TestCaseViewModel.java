@@ -1,6 +1,5 @@
 package org.example.required4testing.viewmodels;
 
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -10,7 +9,6 @@ import org.example.required4testing.dtos.TestCaseDto;
 import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
 import org.example.required4testing.models.User;
-import org.example.required4testing.repositories.tests.TestCaseRepository;
 import org.example.required4testing.services.TestCaseService;
 import org.example.required4testing.services.TestRequirementService;
 import org.example.required4testing.services.UserService;
@@ -28,6 +26,7 @@ public class TestCaseViewModel {
     private String description;
     private String assignedUserName;
     private Collection<TestCaseDto> testCases;
+    private Collection<String> requirements;
 
     @Inject
     private UserService userService;
@@ -84,11 +83,26 @@ public class TestCaseViewModel {
                         x.getDescription(),
                         x.getAssignedUser() != null
                                 ? x.getAssignedUser()
-                                : new UserDto(null, "Not Set", -1)
+                                : new UserDto(null, "Not Set", -1),
+                        x.getSelectedRequirement()
                 ))
                 .collect(Collectors.toList());
     }
 
+    public Collection<String> getRequirements() {
+        return testRequirementService.GetAll().stream().map(TestRequirementDto::getTitle).collect(Collectors.toList());
+    }
+
+    public void setRequirements(Collection<String> requirements) {
+        this.requirements = requirements;
+    }
+
+    public List<String> searchTestRequirement(String query) {
+        return testRequirementService.GetAll().stream()
+                .map(TestRequirementDto::getTitle)
+                .filter(title -> title.toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 
     public List<String> searchUserNames(String query) {
         var users = userService.getAll().stream()
@@ -99,10 +113,6 @@ public class TestCaseViewModel {
         users.stream().findFirst().ifPresent(this::setAssignedUserName);
 
         return users;
-    }
-
-    public List<String> searchTestRequirement(String query) {
-        return testCaseService.GetAll().stream().map(TestCaseDto::getName).filter(x -> name.toLowerCase().contains(query.toLowerCase())).collect(Collectors.toList());
     }
 
     public void save() {
@@ -145,17 +155,16 @@ public class TestCaseViewModel {
 
     public void updateRequirements(TestCaseDto testCaseDto) {
         var ctx = FacesContext.getCurrentInstance();
-        var user = userService.GetUserByName(assignedUserName);
-        if (!user.success()) {
+        var user = loginViewModel.GetUserFromSession();
+        if (user == null) {
             ctx.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "User not found", null));
             ctx.validationFailed();
             return;
         }
-        var userDto = new UserDto(user.object().getId(), user.object().getName(), user.object().getLevel());
-        testRequirementService.update(userDto, testCaseDto, );
 
+        testRequirementService.update(user, testCaseDto);
     }
 }
 

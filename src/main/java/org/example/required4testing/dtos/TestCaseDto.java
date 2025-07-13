@@ -4,15 +4,30 @@ public class TestCaseDto {
     private String name;
     private String description;
     private UserDto assignedUser;
+    private String selectedRequirement;
 
-    public TestCaseDto() {
-
+    public TestCaseDto(String name, String description, UserDto assignedUser, String selectedRequirement) {
+        this.name = name;
+        this.description = description;
+        this.assignedUser = assignedUser;
+        this.selectedRequirement = selectedRequirement;
     }
 
     public TestCaseDto(String name, String description, UserDto assignedUser) {
         this.name = name;
         this.description = description;
         this.assignedUser = assignedUser;
+    }
+
+    public TestCaseDto() {
+    }
+
+    public String getSelectedRequirement() {
+        return selectedRequirement;
+    }
+
+    public void setSelectedRequirement(String selectedRequirement) {
+        this.selectedRequirement = selectedRequirement;
     }
 
     public void setName(String name) {
