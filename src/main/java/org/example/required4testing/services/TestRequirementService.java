@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import org.example.required4testing.dtos.TestCaseDto;
 import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
+import org.example.required4testing.models.User;
 import org.example.required4testing.models.UserLevelType;
 import org.example.required4testing.models.tests.TestRequirement;
 import org.example.required4testing.repositories.tests.TestCaseRepository;
@@ -76,23 +77,28 @@ public class TestRequirementService {
     }
 
     public Collection<TestRequirementDto> GetAll() {
-        return this.testRequirementRepository.findAll().stream()
+        return testRequirementRepository.findAll().stream()
                 .map(requirement -> new TestRequirementDto(
                         requirement.getTitle(),
                         requirement.getDescription(),
-                        requirement.getTestCase() != null
-                                ? requirement.getTestCase().stream()
-                                .map(testCase -> new TestCaseDto(
-                                        testCase.getName(),
-                                        testCase.getDescription(),
-                                        new UserDto(
-                                                testCase.getAssignedToUser().getId(),
-                                                testCase.getAssignedToUser().getName(),
-                                                testCase.getAssignedToUser().getLevel()
-                                        )
-                                ))
+                        requirement.getTestCase() == null
+                                ? Collections.emptyList()
+                                : requirement.getTestCase().stream()
+                                .map(testCase -> {
+                                    User assigned = testCase.getAssignedToUser();
+                                    return new TestCaseDto(
+                                            testCase.getName(),
+                                            testCase.getDescription(),
+                                            assigned == null
+                                                    ? new UserDto()
+                                                    : new UserDto(
+                                                    assigned.getId(),
+                                                    assigned.getName(),
+                                                    assigned.getLevel()
+                                            )
+                                    );
+                                })
                                 .collect(Collectors.toList())
-                                : Collections.emptyList()
                 ))
                 .collect(Collectors.toList());
     }

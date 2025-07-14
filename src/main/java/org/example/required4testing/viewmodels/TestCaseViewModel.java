@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @Named
 @ViewScoped
 public class TestCaseViewModel {
+    private static final long serialVersionUID = 1L;
+
     private UUID id;
     private String name;
     private String description;
@@ -98,10 +100,13 @@ public class TestCaseViewModel {
     }
 
     public List<String> searchTestRequirement(String query) {
-        return testRequirementService.GetAll().stream()
+        var requirements = testRequirementService.GetAll().stream()
                 .map(TestRequirementDto::getTitle)
                 .filter(title -> title.toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
+
+        setRequirements(requirements);
+        return requirements;
     }
 
     public List<String> searchUserNames(String query) {
@@ -164,6 +169,7 @@ public class TestCaseViewModel {
             return;
         }
 
+        testCaseDto.setSelectedRequirement(requirements.stream().findFirst().orElse(null));
         testRequirementService.update(user, testCaseDto);
     }
 }

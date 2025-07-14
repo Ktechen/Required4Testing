@@ -4,7 +4,7 @@ public class TestCaseDto {
     private String name;
     private String description;
     private UserDto assignedUser;
-    private String selectedRequirement;
+    private String selectedRequirement = "";
 
     public TestCaseDto(String name, String description, UserDto assignedUser, String selectedRequirement) {
         this.name = name;

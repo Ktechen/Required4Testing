@@ -72,23 +72,6 @@
                             update="testCasesTable"/>
                 </p:column>
 
-                <p:column headerText="Requirements">
-                    <p:autoComplete
-                            value="#{testcase.selectedRequirement}"
-                            completeMethod="#{testCaseViewModel.searchTestRequirement}"
-                            forceSelection="true"
-                            placeholder="Requirement suchen..."
-                            style="width:100%"/>
-                </p:column>
-
-                <p:column headerText="Update Requirements">
-                    <p:commandButton
-                            icon="pi pi-check"
-                            title="Aktualisieren"
-                            action="#{testCaseViewModel.updateRequirements(testcase)}"
-                            update="testCasesTable"/>
-                </p:column>
-
             </p:dataTable>
 
         </p:panel>
