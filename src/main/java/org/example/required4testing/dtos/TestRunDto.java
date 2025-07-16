@@ -3,25 +3,25 @@ package org.example.required4testing.dtos;
 import java.util.Collection;
 
 public class TestRunDto {
-    private String StartFrom;
+    private String Title;
     private Collection<TestResultDto> TestResults;
     private Collection<TestCaseDto> testCases;
 
     public TestRunDto() {
     }
 
-    public TestRunDto(String startFrom, Collection<TestResultDto> testResults, Collection<TestCaseDto> testCases) {
-        StartFrom = startFrom;
+    public TestRunDto(String title, Collection<TestResultDto> testResults, Collection<TestCaseDto> testCases) {
+        Title = title;
         TestResults = testResults;
         this.testCases = testCases;
     }
 
-    public String getStartFrom() {
-        return StartFrom;
+    public String getTitle() {
+        return Title;
     }
 
-    public void setStartFrom(String startFrom) {
-        StartFrom = startFrom;
+    public void setTitle(String title) {
+        Title = title;
     }
 
     public Collection<TestResultDto> getTestResults() {

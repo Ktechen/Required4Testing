@@ -9,7 +9,7 @@ import java.util.Collection;
 @Table
 public class TestRun extends BaseEntity {
 
-    private String StartFrom;
+    private String Title;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn()
@@ -22,8 +22,8 @@ public class TestRun extends BaseEntity {
     public TestRun() {
     }
 
-    public TestRun(String startFrom, Collection<TestResult> testResults, Collection<TestCase> testCases) {
-        this.StartFrom = startFrom;
+    public TestRun(String title, Collection<TestResult> testResults, Collection<TestCase> testCases) {
+        this.Title = title;
         this.TestResults = testResults;
         this.testCases = testCases;
     }
@@ -36,12 +36,12 @@ public class TestRun extends BaseEntity {
         this.testCases = testCases;
     }
 
-    public String getStartFrom() {
-        return StartFrom;
+    public String getTitle() {
+        return Title;
     }
 
-    public void setStartFrom(String startFrom) {
-        StartFrom = startFrom;
+    public void setTitle(String title) {
+        Title = title;
     }
 
     public Collection<TestResult> getTestResults() {

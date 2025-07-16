@@ -10,14 +10,16 @@ import org.example.required4testing.dtos.TestResultDto;
 import org.example.required4testing.dtos.TestRunDto;
 import org.example.required4testing.services.TestRunService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Named
 @RequestScoped
 public class TestRunViewModel {
-    private String StartFrom;
-    private Collection<TestResultDto> TestResults;
-    private Collection<TestCaseDto> testCases;
+
+    private String Title;
+
+    private Collection<TestRunDto> TestRuns;
 
     @Inject
     private TestRunService testRunService;
@@ -28,7 +30,7 @@ public class TestRunViewModel {
     public void save() {
         var ctx = FacesContext.getCurrentInstance();
         var userDto = loginViewModel.GetUserFromSession();
-        var created = testRunService.Create(userDto, new TestRunDto(StartFrom, TestResults, testCases));
+        var created = testRunService.Create(userDto, new TestRunDto(Title, null, null));
 
         if (!created) {
             ctx.addMessage(null, new FacesMessage(
@@ -40,30 +42,23 @@ public class TestRunViewModel {
 
         ctx.addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Anforderung gespeichert", null));
+                        "Testlauf gespeichert", null));
+
     }
 
-    public String getStartFrom() {
-        return StartFrom;
+    public String getTitle() {
+        return Title;
     }
 
-    public void setStartFrom(String startFrom) {
-        StartFrom = startFrom;
+    public void setTitle(String title) {
+        Title = title;
     }
 
-    public Collection<TestResultDto> getTestResults() {
-        return TestResults;
+    public Collection<TestRunDto> getTestRuns() {
+        return this.testRunService.getAll();
     }
 
-    public void setTestResults(Collection<TestResultDto> testResults) {
-        TestResults = testResults;
-    }
-
-    public Collection<TestCaseDto> getTestCases() {
-        return testCases;
-    }
-
-    public void setTestCases(Collection<TestCaseDto> testCases) {
-        this.testCases = testCases;
+    public void setTestRuns(Collection<TestRunDto> testRuns) {
+        TestRuns = testRuns;
     }
 }

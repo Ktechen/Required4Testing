@@ -22,6 +22,13 @@ public class BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    public BaseEntity() {
+    }
+
+    public BaseEntity(UUID id) {
+        this.id = id;
+    }
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();

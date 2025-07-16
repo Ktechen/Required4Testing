@@ -2,14 +2,24 @@ package org.example.required4testing.dtos;
 
 import org.example.required4testing.models.tests.TestResultType;
 
-public class TestResultDto {
-    private TestResultType testResultType;
+import java.util.UUID;
 
-    public TestResultType getTestResultType() {
-        return testResultType;
+public class TestResultDto {
+
+    private UUID Id;
+
+    public TestResultDto() {
     }
 
-    public void setTestResultType(TestResultType testResultType) {
-        this.testResultType = testResultType;
+    public TestResultDto(UUID id) {
+        Id = id;
+    }
+
+    public UUID getId() {
+        return Id;
+    }
+
+    public void setId(UUID id) {
+        Id = id;
     }
 }

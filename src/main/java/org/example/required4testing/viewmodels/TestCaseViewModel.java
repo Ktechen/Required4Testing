@@ -21,14 +21,13 @@ import java.util.stream.Collectors;
 @Named
 @ViewScoped
 public class TestCaseViewModel {
-    private static final long serialVersionUID = 1L;
-
     private UUID id;
     private String name;
     private String description;
     private String assignedUserName;
     private Collection<TestCaseDto> testCases;
     private Collection<String> requirements;
+    private String selectedRequirement;
 
     @Inject
     private UserService userService;
@@ -171,6 +170,14 @@ public class TestCaseViewModel {
 
         testCaseDto.setSelectedRequirement(requirements.stream().findFirst().orElse(null));
         testRequirementService.update(user, testCaseDto);
+    }
+
+    public String getSelectedRequirement() {
+        return selectedRequirement;
+    }
+
+    public void setSelectedRequirement(String selectedRequirement) {
+        this.selectedRequirement = selectedRequirement;
     }
 }
 
