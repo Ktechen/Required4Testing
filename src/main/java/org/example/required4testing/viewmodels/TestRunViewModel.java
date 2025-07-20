@@ -6,12 +6,12 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.dtos.TestCaseDto;
-import org.example.required4testing.dtos.TestResultDto;
 import org.example.required4testing.dtos.TestRunDto;
 import org.example.required4testing.services.TestRunService;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Named
 @RequestScoped
@@ -25,12 +25,14 @@ public class TestRunViewModel {
     private TestRunService testRunService;
 
     @Inject
-    private LoginViewModel loginViewModel;
+    private UserViewModel userViewModel;
+
+    private List<TestCaseDto> selectedTestCases;
 
     public void save() {
         var ctx = FacesContext.getCurrentInstance();
-        var userDto = loginViewModel.GetUserFromSession();
-        var created = testRunService.Create(userDto, new TestRunDto(Title, null, null));
+        var userDto = userViewModel.GetUserFromSession();
+        var created = testRunService.Create(userDto, new TestRunDto(Title, null));
 
         if (!created) {
             ctx.addMessage(null, new FacesMessage(
@@ -44,6 +46,35 @@ public class TestRunViewModel {
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Testlauf gespeichert", null));
 
+    }
+
+    public void updateTestRun(TestRunDto testRunDto) {
+        var ctx = FacesContext.getCurrentInstance();
+        var userDto = userViewModel.GetUserFromSession();
+
+        var allTestCases = this.getSelectedTestCases();
+        var updatedResults = new ArrayList<Boolean>();
+        for (TestCaseDto testCase : allTestCases) {
+            updatedResults.add(this.testRunService.updateTestRun(userDto, testCase, testRunDto));
+        }
+
+        if (updatedResults.stream().anyMatch(x -> x == false)) {
+            ctx.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Something went wrong", null));
+            ctx.validationFailed();
+        }
+        ctx.addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Cases wurden updated", null));
+    }
+
+    public void setSelectedTestCases(List<TestCaseDto> selectedTestCases) {
+        this.selectedTestCases = selectedTestCases;
+    }
+
+    public List<TestCaseDto> getSelectedTestCases() {
+        return selectedTestCases;
     }
 
     public String getTitle() {

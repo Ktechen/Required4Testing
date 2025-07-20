@@ -4,15 +4,13 @@ import java.util.Collection;
 
 public class TestRunDto {
     private String Title;
-    private Collection<TestResultDto> TestResults;
     private Collection<TestCaseDto> testCases;
 
     public TestRunDto() {
     }
 
-    public TestRunDto(String title, Collection<TestResultDto> testResults, Collection<TestCaseDto> testCases) {
+    public TestRunDto(String title, Collection<TestCaseDto> testCases) {
         Title = title;
-        TestResults = testResults;
         this.testCases = testCases;
     }
 
@@ -22,14 +20,6 @@ public class TestRunDto {
 
     public void setTitle(String title) {
         Title = title;
-    }
-
-    public Collection<TestResultDto> getTestResults() {
-        return TestResults;
-    }
-
-    public void setTestResults(Collection<TestResultDto> testResults) {
-        TestResults = testResults;
     }
 
     public Collection<TestCaseDto> getTestCases() {

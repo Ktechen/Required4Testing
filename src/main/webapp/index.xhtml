@@ -12,12 +12,12 @@
             <p:messages id="messages" showDetail="true" closable="true" />
 
             <p:outputLabel for="username" value="Benutzername" />
-            <p:inputText id="username" value="#{loginViewModel.username}" required="true" />
+            <p:inputText id="username" value="#{userViewModel.username}" required="true" />
 
             <p:outputLabel for="password" value="Passwort" style="margin-top:10px;" />
-            <p:password id="password" value="#{loginViewModel.password}" required="true" feedback="false" />
+            <p:password id="password" value="#{userViewModel.password}" required="true" feedback="false" />
 
-            <p:commandButton value="Anmelden" action="#{loginViewModel.login}" update="messages" style="margin-top:15px; width:100%;" />
+            <p:commandButton value="Anmelden" action="#{userViewModel.login}" update="messages" style="margin-top:15px; width:100%;" />
         </p:panel>
     </h:form>
 </h:body>

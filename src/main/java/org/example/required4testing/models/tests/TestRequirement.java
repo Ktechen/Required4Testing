@@ -2,56 +2,51 @@ package org.example.required4testing.models.tests;
 
 import jakarta.persistence.*;
 import org.example.required4testing.models.BaseEntity;
-import org.example.required4testing.models.User;
 
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table
 public class TestRequirement extends BaseEntity {
-    private String Title;
-    @Column(length = 1024)
-    private String Description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn()
-    private Collection<TestCase> TestCase;
+    @Column(unique=true)
+    private String title;
+    @Column(length = 1024)
+    private String description;
+
+    @OneToMany(mappedBy = "testRequirement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<TestCase> testCases;
 
     public TestRequirement() {
     }
 
     public TestRequirement(String title, String description, Collection<TestCase> testCase) {
-        Title = title;
-        Description = description;
-        TestCase = testCase;
-    }
-
-    public void setTestCase(Collection<TestCase> testCase) {
-        TestCase = testCase;
+        this.title = title;
+        this.description = description;
+        this.testCases = testCase;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public Collection<TestCase> getTestCase() {
-        return TestCase;
+    public Collection<TestCase> getTestCases() {
+        return testCases;
     }
 
-    public void setTestCase(List<TestCase> testCase) {
-        TestCase = testCase;
+    public void setTestCases(Collection<TestCase> testCases) {
+        this.testCases = testCases;
     }
 }

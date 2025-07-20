@@ -2,6 +2,7 @@ package org.example.required4testing.models.tests;
 
 import jakarta.persistence.*;
 import org.example.required4testing.models.BaseEntity;
+import org.example.required4testing.models.TestResultType;
 
 import java.util.Collection;
 
@@ -9,22 +10,16 @@ import java.util.Collection;
 @Table
 public class TestRun extends BaseEntity {
 
-    private String Title;
+    private String title;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn()
-    private Collection<TestResult> TestResults;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn()
+    @OneToMany(mappedBy = "testRun", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Collection<TestCase> testCases;
 
     public TestRun() {
     }
 
-    public TestRun(String title, Collection<TestResult> testResults, Collection<TestCase> testCases) {
-        this.Title = title;
-        this.TestResults = testResults;
+    public TestRun(String title, Collection<TestCase> testCases) {
+        this.title = title;
         this.testCases = testCases;
     }
 
@@ -37,18 +32,11 @@ public class TestRun extends BaseEntity {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
-    public Collection<TestResult> getTestResults() {
-        return TestResults;
-    }
-
-    public void setTestResults(Collection<TestResult> testResults) {
-        TestResults = testResults;
-    }
 }

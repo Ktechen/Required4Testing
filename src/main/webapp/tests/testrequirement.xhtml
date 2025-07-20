@@ -8,82 +8,103 @@
     <title>Test Requirements</title>
 </h:head>
 <h:body>
-        <h1>
-            Name: <h:outputText value="#{loginViewModel.username}" /> –
-            Level: <h:outputText value="#{loginViewModel.level}" />
-        </h1>
+    <h1>
+        Name: <h:outputText value="#{userViewModel.username}"/> –
+        Level: <h:outputText value="#{userViewModel.level}"/>
+    </h1>
 
-        <h:form id="navForm" style="margin-bottom: 10px">
-            <p:menubar>
-                <p:menuitem
-                        value="Overview"
-                        icon="pi pi-home"
-                        action="#{navbarViewModel.navigateToOverview}"
-                />
-            </p:menubar>
-        </h:form>
+    <h:form id="navForm" style="margin-bottom: 10px">
+        <p:menubar>
+            <p:menuitem
+                    value="Overview"
+                    icon="pi pi-home"
+                    action="#{navbarViewModel.navigateToOverview}"
+            />
+        </p:menubar>
+    </h:form>
 
-        <h:form id="mainForm">
-            <p:panel header="Neue Anforderung anlegen">
-                <p:outputLabel for="reqTitle" value="Titel:" />
-                <p:inputText
-                        id="reqTitle"
-                        value="#{testRequirementViewModel.title}"
-                        style="width:100%"
-                        required="true"
-                />
+    <h:form id="mainForm">
+        <p:panel header="Neue Anforderung anlegen">
+            <p:outputLabel for="reqTitle" value="Titel:"/>
+            <p:inputText
+                    id="reqTitle"
+                    value="#{testRequirementViewModel.title}"
+                    style="width:100%"
+                    required="true"
+            />
 
-                <p:outputLabel for="reqDesc" value="Beschreibung:" />
-                <p:inputTextarea
-                        id="reqDesc"
-                        value="#{testRequirementViewModel.description}"
-                        style="width:100%"
-                        rows="4"
-                        required="true"
-                />
+            <p:outputLabel for="reqDesc" value="Beschreibung:"/>
+            <p:inputTextarea
+                    id="reqDesc"
+                    value="#{testRequirementViewModel.description}"
+                    style="width:100%"
+                    rows="4"
+                    required="true"
+            />
 
-                <p:commandButton
-                        value="Anforderung speichern"
-                        action="#{testRequirementViewModel.save}"
-                        update="@form"
-                />
-                <p:messages id="msgs" showDetail="true" autoUpdate="true" />
-            </p:panel>
+            <p:commandButton
+                    value="Anforderung speichern"
+                    action="#{testRequirementViewModel.save}"
+                    update="@form"
+            />
+            <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
+        </p:panel>
+    </h:form>
+    <p:panel header="Bestehende Anforderungen">
+        <p:dataTable
+                value="#{testRequirementViewModel.testRequirements}"
+                var="requirement"
+                emptyMessage="Keine Anforderungen vorhanden"
+        >
+            <p:column headerText="Titel">
+                <h:outputText value="#{requirement.title}"/>
+            </p:column>
 
-            <p:panel header="Bestehende Anforderungen">
-                <p:dataTable
-                        value="#{testRequirementViewModel.testRequirements}"
-                        var="requirement"
-                        emptyMessage="Keine Anforderungen vorhanden"
-                >
-                    <p:column headerText="Titel">
-                        <h:outputText value="#{requirement.title}" />
-                    </p:column>
+            <p:column headerText="Beschreibung">
+                <h:outputText value="#{requirement.description}"/>
+            </p:column>
 
-                    <p:column headerText="Beschreibung">
-                        <h:outputText value="#{requirement.description}" />
-                    </p:column>
+            <p:column headerText="Testfälle">
+                <h:form>
+                    <p:dataTable
+                            value="#{requirement.testCase}"
+                            var="testcase"
+                            emptyMessage="Keine Testfälle"
+                    >
+                        <p:column headerText="Name">
+                            <h:outputText value="#{testcase.name}"/>
+                        </p:column>
+                        <p:column headerText="Beschreibung">
+                            <h:outputText value="#{testcase.description}"/>
+                        </p:column>
+                        <p:column headerText="Zuständig">
+                            <h:outputText value="#{testcase.assignedUser.name}"/>
+                        </p:column>
+                    </p:dataTable>
 
-                    <p:column headerText="Testfälle">
-                        <p:dataTable
-                                value="#{requirement.testCase}"
-                                var="testcase"
-                                emptyMessage="Keine Testfälle"
-                        >
-                            <p:column headerText="Name">
-                                <h:outputText value="#{testcase.name}" />
-                            </p:column>
-                            <p:column headerText="Beschreibung">
-                                <h:outputText value="#{testcase.description}" />
-                            </p:column>
-                            <p:column headerText="Zuständig">
-                                <h:outputText value="#{testcase.assignedUser.name}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:column>
+                    <p:dataTable value="#{testRequirementViewModel.testCases}"
+                                 var="testcase"
+                                 selection="#{testRequirementViewModel.selectedTestCases}"
+                                 rowKey="#{testcase.name}"
+                                 selectionMode="multiple"
+                                 emptyMessage="Not any value from type testcase found">
 
-                </p:dataTable>
-            </p:panel>
-        </h:form>
+                        <p:column selectionMode="multiple" style="width:3%" />
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{testcase.name}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton
+                            value="Add testcases"
+                            action="#{testRequirementViewModel.updateTestcases(requirement)}"
+                            update="@form"
+                    />
+                    <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
+                </h:form>
+            </p:column>
+
+        </p:dataTable>
+    </p:panel>
 </h:body>
 </html>

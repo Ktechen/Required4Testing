@@ -5,22 +5,28 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.example.required4testing.dtos.TestCaseDto;
 import org.example.required4testing.dtos.UserDto;
 import org.example.required4testing.models.UserLevelType;
+import org.example.required4testing.services.TestCaseService;
 import org.example.required4testing.services.UserService;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 
 @Named
 @RequestScoped
-public class LoginViewModel {
+public class UserViewModel {
     private String username;
     private String password;
     private String level;
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private TestCaseService testCaseService;
 
     public void login() throws IOException {
         var ctx = FacesContext.getCurrentInstance();
@@ -73,6 +79,11 @@ public class LoginViewModel {
                         .toString()
         );
         return UserLevelType.fromLevel(level).name();
+    }
+
+    public Collection<TestCaseDto> getMyTestCases() {
+        var user = this.GetUserFromSession();
+        return this.testCaseService.getFilteredByUser(user);
     }
 
     public void setUsername(String username) {

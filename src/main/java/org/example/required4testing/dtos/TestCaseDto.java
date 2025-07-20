@@ -1,17 +1,13 @@
 package org.example.required4testing.dtos;
 
+import org.example.required4testing.models.TestResultType;
+
 public class TestCaseDto {
     private String name;
     private String description;
     private UserDto assignedUser;
-    private String selectedRequirement = "";
 
-    public TestCaseDto(String name, String description, UserDto assignedUser, String selectedRequirement) {
-        this.name = name;
-        this.description = description;
-        this.assignedUser = assignedUser;
-        this.selectedRequirement = selectedRequirement;
-    }
+    private TestResultType testResultType;
 
     public TestCaseDto(String name, String description, UserDto assignedUser) {
         this.name = name;
@@ -19,15 +15,14 @@ public class TestCaseDto {
         this.assignedUser = assignedUser;
     }
 
+    public TestCaseDto(String name, String description, UserDto assignedUser, TestResultType testResultType) {
+        this.name = name;
+        this.description = description;
+        this.assignedUser = assignedUser;
+        this.testResultType = testResultType;
+    }
+
     public TestCaseDto() {
-    }
-
-    public String getSelectedRequirement() {
-        return selectedRequirement;
-    }
-
-    public void setSelectedRequirement(String selectedRequirement) {
-        this.selectedRequirement = selectedRequirement;
     }
 
     public void setName(String name) {
@@ -52,6 +47,14 @@ public class TestCaseDto {
 
     public UserDto getAssignedUser() {
         return assignedUser;
+    }
+
+    public TestResultType getTestResultType() {
+        return testResultType;
+    }
+
+    public void setTestResultType(TestResultType testResultType) {
+        this.testResultType = testResultType;
     }
 }
 

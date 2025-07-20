@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,12 +46,12 @@ public class TestRequirementService {
         return true;
     }
 
-    public boolean update(UserDto userDto, TestCaseDto testCaseDto) {
+    public boolean update(UserDto userDto, TestCaseDto testCaseDto, TestRequirementDto requirementDto) {
         if(!UserLevelType.Testfallersteller.hasMinimumLevelRequirementsEngineer(userDto)) {
             return false;
         }
 
-        var requirement = testRequirementRepository.findAll().stream().filter(t -> t.getTitle().equals(testCaseDto.getSelectedRequirement())).findFirst();
+        var requirement = testRequirementRepository.findAll().stream().filter(t -> t.getTitle().equals(requirementDto.getTitle())).findFirst();
         if (requirement.isEmpty()) {
             return false;
         }
@@ -68,11 +67,9 @@ public class TestRequirementService {
             return false;
         }
 
-        var testCases = requirement.get().getTestCase();
-        testCases.add(findTestCase);
-        requirement.get().setTestCase(testCases);
+        findTestCase.setTestRequirement(requirement.get());
 
-        testRequirementRepository.save(requirement.get());
+        testCaseRepository.save(findTestCase);
         return true;
     }
 
@@ -81,9 +78,9 @@ public class TestRequirementService {
                 .map(requirement -> new TestRequirementDto(
                         requirement.getTitle(),
                         requirement.getDescription(),
-                        requirement.getTestCase() == null
+                        requirement.getTestCases() == null
                                 ? Collections.emptyList()
-                                : requirement.getTestCase().stream()
+                                : requirement.getTestCases().stream()
                                 .map(testCase -> {
                                     User assigned = testCase.getAssignedToUser();
                                     return new TestCaseDto(

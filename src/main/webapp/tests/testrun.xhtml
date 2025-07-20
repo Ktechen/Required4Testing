@@ -5,8 +5,8 @@
 ><h:head><title>Testläufe</title></h:head>
 <h:body>
     <h1>
-        Name: <h:outputText value="#{loginViewModel.username}"/> –
-        Level: <h:outputText value="#{loginViewModel.level}"/>
+        Name: <h:outputText value="#{userViewModel.username}"/> –
+        Level: <h:outputText value="#{userViewModel.level}"/>
     </h1>
     <h:form id="navForm" style="margin-bottom: 10px">
         <p:menubar>
@@ -19,7 +19,7 @@
     </h:form>
     <h:form id="mainForm">
         <p:panel header="Neue Testlauf anlegen">
-            <p:outputLabel for="testRunViewModelTitle" value="Titel:" />
+            <p:outputLabel for="testRunViewModelTitle" value="Titel:"/>
             <p:inputText
                     id="testRunViewModelTitle"
                     value="#{testRunViewModel.title}"
@@ -32,74 +32,84 @@
                     action="#{testRunViewModel.save}"
                     update="@form"
             />
-            <p:messages id="msgs" showDetail="true" autoUpdate="true" />
-        </p:panel>
-
-        <p:panel header="Bestehende Anforderungen">
-            <p:dataTable
-                    value="#{testRunViewModel.testRuns}"
-                    var="testRun"
-                    emptyMessage="Keine Anforderungen vorhanden"
-            >
-                <p:column headerText="Titel">
-                    <h:outputText value="#{testRun.title}" />
-                </p:column>
-
-                <p:column headerText="Test Runs">
-                    <p:dataTable
-                            value="#{testRunViewModel.testRuns}"
-                            var="testRun"
-                            emptyMessage="No Test Runs"
-                    >
-                        <p:column headerText="Name">
-                            <h:outputText value="#{testRun.title}" />
-                        </p:column>
-                        <p:column headerText="testCases">
-                            <h:outputText value="#{testRun.testCases}" />
-                            <p:dataTable
-                                    value="#{testRun.testCases}"
-                                    var="testCase"
-                                    emptyMessage="No testCases"
-                            >
-                                <p:column headerText="testResults">
-                                    <h:outputText value="#{testCase.name}" />
-                                </p:column>
-                            </p:dataTable>
-                        </p:column>
-                        <p:column headerText="testResults">
-                            <p:dataTable
-                                    value="#{testRun.testResults}"
-                                    var="testResult"
-                                    emptyMessage="No testCases"
-                            >
-                                <p:column headerText="testResults">
-                                    <h:outputText value="#{testResult.id}" />
-                                </p:column>
-                            </p:dataTable>
-                        </p:column>
-                    </p:dataTable>
-                </p:column>
-
-                <p:column headerText="Testfälle">
-                    <p:dataTable
-                            value="#{requirement.testCase}"
-                            var="testcase"
-                            emptyMessage="Keine Testfälle"
-                    >
-                        <p:column headerText="Name">
-                            <h:outputText value="#{testcase.name}" />
-                        </p:column>
-                        <p:column headerText="Beschreibung">
-                            <h:outputText value="#{testcase.description}" />
-                        </p:column>
-                        <p:column headerText="Zuständig">
-                            <h:outputText value="#{testcase.assignedUser.name}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:column>
-
-            </p:dataTable>
+            <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
         </p:panel>
     </h:form>
+    <p:panel header="Bestehende Anforderungen">
+        <p:dataTable
+                value="#{testRunViewModel.testRuns}"
+                var="testRun"
+                emptyMessage="Keine Anforderungen vorhanden"
+        >
+            <p:column headerText="Titel">
+                <h:outputText value="#{testRun.title}"/>
+            </p:column>
+
+            <p:column headerText="Test Runs">
+                <p:dataTable
+                        value="#{testRunViewModel.testRuns}"
+                        var="testRun"
+                        emptyMessage="No Test Runs"
+                >
+                    <p:column headerText="Name">
+                        <h:outputText value="#{testRun.title}"/>
+                    </p:column>
+                    <p:column headerText="testCases">
+                        <p:dataTable
+                                value="#{testRun.testCases}"
+                                var="testCase"
+                                emptyMessage="No testCases"
+                        >
+                            <p:column headerText="TestCase">
+                                <h:outputText value="#{testCase.name}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+
+            <p:column headerText="Testfälle">
+                <p:dataTable
+                        value="#{requirement.testCase}"
+                        var="testcase"
+                        emptyMessage="Keine Testfälle"
+                >
+                    <p:column headerText="Name">
+                        <h:outputText value="#{testcase.name}"/>
+                    </p:column>
+                    <p:column headerText="Beschreibung">
+                        <h:outputText value="#{testcase.description}"/>
+                    </p:column>
+                    <p:column headerText="Zuständig">
+                        <h:outputText value="#{testcase.assignedUser.name}"/>
+                    </p:column>
+                </p:dataTable>
+                <h:form>
+                    <p:dataTable value="#{testCaseViewModel.testCases}"
+                                 var="testcase"
+                                 selection="#{testRunViewModel.selectedTestCases}"
+                                 rowKey="#{testcase.name}"
+                                 selectionMode="multiple"
+                                 emptyMessage="Not any value from type testcase found">
+
+                        <p:column selectionMode="multiple" style="width:3%"/>
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{testcase.name}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton
+                            value="Add testcases"
+                            action="#{testRunViewModel.updateTestRun(testRun)}"
+                            update="@form"
+                    />
+                    <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
+                </h:form>
+            </p:column>
+            <p:column headerText="Add TestResult">
+                <h:outputText value="#{testRunViewModel.}"/>
+            </p:column>
+        </p:dataTable>
+    </p:panel>
 </h:body>
 </html>

@@ -7,8 +7,8 @@
     <title>Test Requirements</title>
 </h:head>
 <h1>
-    Name: <h:outputText value="#{loginViewModel.username}"/> –
-    Level: <h:outputText value="#{loginViewModel.level}"/>
+    Name: <h:outputText value="#{userViewModel.username}"/> –
+    Level: <h:outputText value="#{userViewModel.level}"/>
 </h1>
 <h:form id="navForm">
     <p:messages id="msgs" showDetail="true" autoUpdate="true"/>
@@ -18,16 +18,16 @@
                     action="#{navbarViewModel.navigateToTestCase}"
                     icon="pi pi-check-square"
                     update="msgs"/>
-        <p:menuitem value="Test Result"
-                    action="#{navbarViewModel.navigateToTestResult}"
-                    icon="pi pi-chart-bar"
-                    update="msgs"/>
         <p:menuitem value="Test Run"
                     action="#{navbarViewModel.navigateToTestRun}"
                     icon="pi pi-play"
                     update="msgs"/>
         <p:menuitem value="Test Requirement"
                     action="#{navbarViewModel.navigateToTestRequirement}"
+                    icon="pi pi-chart-bar"
+                    update="msgs"/>
+        <p:menuitem value="My Testcases"
+                    action="#{navbarViewModel.navigateToMyTestCases}"
                     icon="pi pi-chart-bar"
                     update="msgs"/>
     </p:menu>

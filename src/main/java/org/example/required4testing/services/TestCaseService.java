@@ -7,11 +7,15 @@ import org.example.required4testing.models.User;
 import org.example.required4testing.models.UserLevelType;
 import org.example.required4testing.models.tests.TestCase;
 import org.example.required4testing.repositories.tests.TestCaseRepository;
+import org.example.required4testing.viewmodels.TestCaseViewModel;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class TestCaseService {
@@ -43,7 +47,7 @@ public class TestCaseService {
 
             testcase = new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), assignedUser.object());
         }else{
-            testcase = new TestCase(testCaseDto.getName(), testCaseDto.getDescription(), null);
+            testcase = new TestCase(testCaseDto.getName(), testCaseDto.getDescription());
         }
         testCaseRepository.save(Objects.requireNonNull(testcase));
         return true;
@@ -63,7 +67,7 @@ public class TestCaseService {
                             userDto
                     );
                 })
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public boolean updateAssignedUser(TestCaseDto testCaseDto, User user) {
@@ -79,6 +83,38 @@ public class TestCaseService {
 
         existingTestCase.setAssignedToUser(user);
         this.testCaseRepository.save(existingTestCase);
+        return true;
+    }
+
+    public Collection<TestCaseDto> getFilteredByUser(UserDto user) {
+        if (user == null) {
+            return Collections.emptyList();
+        }
+
+        return this.testCaseRepository
+                .findAll()
+                .stream()
+                .filter(x -> x.getAssignedToUser() != null
+                        && x.getAssignedToUser().getName().equals(user.getName()))
+                .map(x -> new TestCaseDto(x.getName(), x.getDescription(), user))
+                .toList();
+    }
+
+    public boolean updateTestResult(TestCaseDto testCaseDto) {
+        var testCaseOptional = this.testCaseRepository
+                .findAll()
+                .stream()
+                .filter(x -> x.getName().equalsIgnoreCase(testCaseDto.getName()))
+                .findFirst();
+
+        if(testCaseOptional.isEmpty()) {
+            return false;
+        }
+
+        var testcase = testCaseOptional.get();
+        testcase.setTestResultType(testCaseDto.getTestResultType());
+
+        this.testCaseRepository.save(testcase);
         return true;
     }
 }

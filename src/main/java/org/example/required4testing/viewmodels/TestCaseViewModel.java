@@ -1,25 +1,27 @@
 package org.example.required4testing.viewmodels;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.example.required4testing.dtos.TestCaseDto;
 import org.example.required4testing.dtos.TestRequirementDto;
 import org.example.required4testing.dtos.UserDto;
+import org.example.required4testing.models.TestResultType;
 import org.example.required4testing.models.User;
 import org.example.required4testing.services.TestCaseService;
 import org.example.required4testing.services.TestRequirementService;
 import org.example.required4testing.services.UserService;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class TestCaseViewModel {
     private UUID id;
     private String name;
@@ -28,6 +30,7 @@ public class TestCaseViewModel {
     private Collection<TestCaseDto> testCases;
     private Collection<String> requirements;
     private String selectedRequirement;
+    private TestResultType selectedResult;
 
     @Inject
     private UserService userService;
@@ -36,7 +39,7 @@ public class TestCaseViewModel {
     private TestCaseService testCaseService;
 
     @Inject
-    private LoginViewModel loginViewModel;
+    private UserViewModel userViewModel;
 
     @Inject
     private TestRequirementService testRequirementService;
@@ -77,6 +80,18 @@ public class TestCaseViewModel {
         this.testCases = testCases;
     }
 
+    public Collection<TestResultType> getTestResultTypes() {
+        return Arrays.stream(TestResultType.values()).toList();
+    }
+
+    public TestResultType getSelectedResult() {
+        return selectedResult;
+    }
+
+    public void setSelectedResult(TestResultType selectedResult) {
+        this.selectedResult = selectedResult;
+    }
+
     public Collection<TestCaseDto> getTestCases() {
         return testCaseService.GetAll().stream()
                 .map(x -> new TestCaseDto(
@@ -84,8 +99,7 @@ public class TestCaseViewModel {
                         x.getDescription(),
                         x.getAssignedUser() != null
                                 ? x.getAssignedUser()
-                                : new UserDto(null, "Not Set", -1),
-                        x.getSelectedRequirement()
+                                : new UserDto(null, "Not Set", -1)
                 ))
                 .collect(Collectors.toList());
     }
@@ -121,7 +135,7 @@ public class TestCaseViewModel {
 
     public void save() {
         var ctx = FacesContext.getCurrentInstance();
-        var userDto = loginViewModel.GetUserFromSession();
+        var userDto = userViewModel.GetUserFromSession();
 
         var assignedUser = userService.getAll().stream()
                 .filter(u -> u.getName().equalsIgnoreCase(assignedUserName))
@@ -149,27 +163,31 @@ public class TestCaseViewModel {
         var user = userService.GetUserByName(assignedUserName);
         if (!user.success()) {
             ctx.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "User not found", null));
             ctx.validationFailed();
             return;
         }
         testCaseService.updateAssignedUser(testCaseDto, user.object());
+        ctx.addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Testcase update AssignedUser", null));
+
     }
 
-    public void updateRequirements(TestCaseDto testCaseDto) {
+    public void updateTestResult(TestCaseDto testCaseDto) {
         var ctx = FacesContext.getCurrentInstance();
-        var user = loginViewModel.GetUserFromSession();
-        if (user == null) {
+        testCaseDto.setTestResultType(selectedResult);
+        var updateResult = this.testCaseService.updateTestResult(testCaseDto);
+        if(!updateResult){
             ctx.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "User not found", null));
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Something went wrong for updating with db", null));
             ctx.validationFailed();
-            return;
         }
-
-        testCaseDto.setSelectedRequirement(requirements.stream().findFirst().orElse(null));
-        testRequirementService.update(user, testCaseDto);
+        ctx.addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Update Test Result Type ", null));
     }
 
     public String getSelectedRequirement() {

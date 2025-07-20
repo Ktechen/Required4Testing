@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Testfälle</title>
+</h:head>
+
+<h:body>
+
+    <h1>
+        Name: <h:outputText value="#{userViewModel.username}"/> –
+        Level: <h:outputText value="#{userViewModel.level}"/>
+    </h1>
+
+    <h:form id="navForm" style="margin-bottom: 10px">
+        <p:menubar>
+            <p:menuitem value="Overview"
+                        icon="pi pi-home"
+                        action="#{navbarViewModel.navigateToOverview}"/>
+        </p:menubar>
+    </h:form>
+
+    <h1>My Testcases</h1>
+
+    <h:form id="tableForm">
+        <p:panel header="Meine Testfälle">
+
+            <p:dataTable id="testCasesTable" value="#{userViewModel.myTestCases}" var="testcase" editable="true">
+
+                <p:column headerText="Name">
+                    <h:outputText value="#{testcase.name}"/>
+                </p:column>
+
+                <p:column headerText="Beschreibung">
+                    <h:outputText value="#{testcase.description}"/>
+                </p:column>
+
+                <p:column headerText="Test Result">
+                    <p:selectOneMenu value="#{testCaseViewModel.selectedResult}" style="width:100%">
+                        <f:selectItem itemLabel="Bitte wählen ein TestResult Type" itemValue="#{null}" noSelectionOption="true" />
+                        <f:selectItems value="#{testCaseViewModel.testResultTypes}" var="type"
+                                       itemValue="#{type}" itemLabel="#{type}" />
+                    </p:selectOneMenu>
+                </p:column>
+
+                <p:column headerText="Update TestResult">
+                    <p:commandButton
+                            icon="pi pi-check"
+                            title="Aktualisieren"
+                            action="#{testCaseViewModel.updateTestResult(testcase)}"
+                            update="testCasesTable"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>
